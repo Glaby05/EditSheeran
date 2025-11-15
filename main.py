@@ -1,8 +1,10 @@
 import tkinter as tk
 from PIL import ImageTk, Image
+root=tk.Tk(); root.title("EditSheeran")
+root.iconbitmap(r"EditSheeran\ed.ico")
+root.geometry("900x500")
 
-
-# Window / Root with fixed size
+# Window / Root with fixed size - done sw
 # put Frames as partitions of the app:
 #   - to divide the app into different main parts
 #   -> left: options for Ed Sheeran pictures (1/4 of window vertically)
@@ -64,3 +66,5 @@ class App(tk.Tk):
 
     def create_widgets(self):
         pass
+
+root.mainloop()
