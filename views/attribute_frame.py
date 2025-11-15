@@ -1,0 +1,2 @@
+class AttributeFrame:
+    pass

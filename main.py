@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 
+
 # Window / Root with fixed size
 # put Frames as partitions of the app:
 #   - to divide the app into different main parts
@@ -44,18 +45,22 @@ class ImageEditor:
         # get image from one of the Ed Pict, from properties.py class object
         pass
 
-# class CommandField(tk.Frame):
-#     def __init__(self, parent, label=''):
-#         super().__init__(parent)
-
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.title("Ed Sheeran Photo Editor")
+        self.geometry("1200x700")
 
+        self.card = None  # shared model
+
+        self.attributes_frame = AttributesFrame(self)
+        self.preview_frame = PreviewFrame(self)
+        self.photobook_frame = PhotobookFrame(self)
+
+        self.attributes_frame.pack(side="left", fill="y")
+        self.preview_frame.pack(side="left", expand=True, fill="both")
+        self.photobook_frame.pack(side="right", fill="y")
 
     def create_widgets(self):
         pass
-
-
-

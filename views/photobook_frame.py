@@ -1,0 +1,2 @@
+class PhotobookFrame:
+    pass
