@@ -2,10 +2,6 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from EditSheeran.views.attribute_frame import *
 
-root=tk.Tk(); root.title("EditSheeran")
-root.iconbitmap(r"assets/ed.ico")
-root.geometry("900x500")
-
 # Window / Root with fixed size - done sw
 # put Frames as partitions of the app:
 #   - to divide the app into different main parts
@@ -14,7 +10,25 @@ root.geometry("900x500")
 #   -> right: (last quarter of window vertically)
 #       -> top:
 #       -> bottom: display the last update of the picture
-#
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Ed Sheeran Photo Editor")
+        self.geometry("1200x700")
+
+        self.card = None  # shared model
+
+        # self.attributes_frame = AttributesFrame()
+        # self.preview_frame = PreviewFrame(self)
+        # self.photobook_frame = PhotobookFrame(self)
+
+        # self.attributes_frame.pack(side="left", fill="y")
+        # self.preview_frame.pack(side="left", expand=True, fill="both")
+        # self.photobook_frame.pack(side="right", fill="y")
+
+    def create_widgets(self):
+        pass
 
 class ImageEditor:
     # Note: we can also grayscale the image to further edit them, like the
@@ -48,24 +62,5 @@ class ImageEditor:
         # get image from one of the Ed Pict, from properties.py class object
         pass
 
-
-class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Ed Sheeran Photo Editor")
-        self.geometry("1200x700")
-
-        self.card = None  # shared model
-
-        self.attributes_frame = AttributesFrame(self)
-        self.preview_frame = PreviewFrame(self)
-        self.photobook_frame = PhotobookFrame(self)
-
-        self.attributes_frame.pack(side="left", fill="y")
-        self.preview_frame.pack(side="left", expand=True, fill="both")
-        self.photobook_frame.pack(side="right", fill="y")
-
-    def create_widgets(self):
-        pass
-
+root = App()
 root.mainloop()
