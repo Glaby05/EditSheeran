@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 root=tk.Tk(); root.title("EditSheeran")
-root.iconbitmap(r"EditSheeran\ed.ico")
+root.iconbitmap(r"ed.ico")
 root.geometry("900x500")
 
 # Window / Root with fixed size - done sw
