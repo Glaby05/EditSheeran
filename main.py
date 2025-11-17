@@ -1,7 +1,8 @@
 import tkinter as tk
 from PIL import ImageTk, Image
+
 root=tk.Tk(); root.title("EditSheeran")
-root.iconbitmap(r"ed.ico")
+root.iconbitmap(r"assets/ed.ico")
 root.geometry("900x500")
 
 # Window / Root with fixed size - done sw
@@ -13,7 +14,6 @@ root.geometry("900x500")
 #       -> top:
 #       -> bottom: display the last update of the picture
 #
-
 
 class ImageEditor:
     # Note: we can also grayscale the image to further edit them, like the
