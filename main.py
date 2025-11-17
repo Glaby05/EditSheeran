@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import ImageTk, Image
+from EditSheeran.views.attribute_frame import *
 
 root=tk.Tk(); root.title("EditSheeran")
 root.iconbitmap(r"assets/ed.ico")
