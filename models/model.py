@@ -7,7 +7,11 @@ class State:
 
 class Card:
     def __init__(self):
-        self.type = None
+        # self.type = None
+        self.base = None  # TODO: base_image_path
+        self.overlays = []  # list of Overlay objects, can class State object
+        self.name = "Untitled Ed"
+        self.facts = ""
 
     def choice(self):
         # types of card: birthday, thank you, Christmas,

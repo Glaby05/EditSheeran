@@ -61,4 +61,4 @@
 # root = App()
 # root.mainloop()
 
-from EditSheeran.views.view import
+from views.view import *
