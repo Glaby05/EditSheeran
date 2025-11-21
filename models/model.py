@@ -6,17 +6,39 @@ class State:
 
 
 class Card:
-    def __init__(self):
+    def __init__(self, base_image_path=""):
         # self.type = None
-        self.base = None  # TODO: base_image_path
+        self.base = base_image_path
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""
 
-    def choice(self):
-        # types of card: birthday, thank you, Christmas,
-        #                valentine, blank (add your own text)
-        pass
+    def to_dict(self):
+        return {
+            "base": self.base,
+            "name": self.name,
+            "facts": self.facts,
+            "overlays": [
+                {
+                    "img_path": ov.img_path,
+                    "x": ov.x,
+                    "y": ov.y,
+                    "scale": ov.scale,
+                }
+                for ov in self.overlays
+            ],
+        }
+
+    @staticmethod
+    def from_dict(data):
+        c = Card(data.get("base", ""))
+        c.name = data.get("name", "Untitled Ed")
+        c.facts = data.get("facts", "")
+        for ov in data.get("overlays", []):
+            c.overlays.append(
+                Overlay(ov["img_path"], ov["x"], ov["y"], ov["scale"])
+            )
+        return c
 
 
 class Overlay:
