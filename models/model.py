@@ -1,4 +1,7 @@
 # anything in this model will be displayed in the attribute frame
+import tkinter as tk
+from overlay_images import *
+
 
 class State:
     def __init__(self):
@@ -50,7 +53,14 @@ class Overlay:
 
 
 class Eyes(Overlay):
-    pass
+    def __init__(self, library, parent, img_path):
+        super().__init__(img_path)
+        self.library = eyes
+        self.keys = list(library.keys())
+        self.index = 0
+        self.label = tk.Label(parent)
+        self.label.pack()
+
 
 
 class Nose(Overlay):
