@@ -61,4 +61,4 @@
 # root = App()
 # root.mainloop()
 
-from views.view import *
+#from views.view import *

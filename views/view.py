@@ -3,11 +3,11 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-from models.model import Card
-from views.attribute_frame import AttributesFrame
-from views.photobook_frame import PhotobookFrame
-from views.preview_frame import PreviewFrame
-from controllers.controller import Controller
+from EditSheeran.models.model import Card
+from EditSheeran.views.attribute_frame import AttributesFrame
+from EditSheeran.views.photobook_frame import PhotobookFrame
+from EditSheeran.views.preview_frame import PreviewFrame
+from EditSheeran.controllers.controller import Controller
 
 
 class App(tk.Tk):

@@ -1,6 +1,6 @@
 # anything in this model will be displayed in the attribute frame
 import tkinter as tk
-from overlay_images import *
+from EditSheeran.overlay_images import *
 
 
 class State:
