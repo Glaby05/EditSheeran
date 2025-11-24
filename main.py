@@ -61,4 +61,7 @@
 # root = App()
 # root.mainloop()
 
-#from views.view import *
+from views.view import App
+if __name__ == "__main__":
+     app = App()
+     app.mainloop()

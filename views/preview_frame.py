@@ -1,8 +1,8 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-from EditSheeran.models.model import Card
-from EditSheeran.controllers.controller import Controller
+from models.model import Card
+from controllers.controller import Controller
 
 
 # note:
