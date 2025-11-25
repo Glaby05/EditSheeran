@@ -25,6 +25,7 @@
 #
 #     def create_widgets(self):
 #         pass
+import os.path
 
 # class ImageEditor:
 #     # Note: we can also grayscale the image to further edit them, like the
@@ -62,6 +63,8 @@
 # root.mainloop()
 
 from views.view import App
+from views.initial_frame import WelcomeOverlay
 if __name__ == "__main__":
      app = App()
+     welcome_prompt = WelcomeOverlay(app)
      app.mainloop()

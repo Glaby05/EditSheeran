@@ -42,8 +42,3 @@ class App(tk.Tk):
 
         menubar.add_cascade(label="File", menu=file_menu)
         self.config(menu=menubar)
-
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()

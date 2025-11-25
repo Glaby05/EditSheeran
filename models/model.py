@@ -2,14 +2,13 @@
 import tkinter as tk
 from EditSheeran.overlay_images import *
 
-
 class State:
     def __init__(self):
         pass
 
 
 class Card:
-    def __init__(self, base_image_path="efef.jpg"):
+    def __init__(self, base_image_path="assets/blank_card.jpg"):
         # self.type = None
         self.base = base_image_path
         self.overlays = []  # list of Overlay objects, can class State object
