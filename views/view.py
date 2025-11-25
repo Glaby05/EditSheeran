@@ -34,9 +34,9 @@ class App(tk.Tk):
     def create_menu(self):
         menubar = tk.Menu(self)
         file_menu = tk.Menu(menubar, tearoff=0)
-        file_menu.add_command(label="New Card", command=self.controller.new_card())
-        file_menu.add_command(label="Open Base Image", command=self.controller.load_base())
-        file_menu.add_command(label="Save to Photobook", command=self.controller.save_card())
+        file_menu.add_command(label="New Card", command=self.controller.new_card)
+        file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
+        file_menu.add_command(label="Save to Photobook", command=self.controller.save_card)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.quit)
 

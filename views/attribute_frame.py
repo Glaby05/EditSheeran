@@ -7,8 +7,6 @@ from EditSheeran.views.preview_frame import PreviewFrame
 from EditSheeran.models.model import Overlay
 from EditSheeran.controllers.controller import Controller
 
-
-
 class EyeSelector(tk.Frame):
     def __init__(self, parent, library):
         super().__init__(parent)
