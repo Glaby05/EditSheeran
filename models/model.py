@@ -67,8 +67,22 @@ class Nose(Overlay):
 
 
 class Lips(Overlay):
-    pass
+    def __init__(self, library, parent, img_path):
+        super().__init__(img_path)
+        self.library = mouths
+        self.keys = list(library.keys())
+        self.index = 0
+        self.label = tk.Label(parent)
+        self.label.pack()
 
 
 class Accessory(Overlay):
-    pass
+    def __init__(self, library, parent, img_path):
+        super().__init__(img_path)
+        self.library = accessories
+        self.keys = list(library.keys())
+        self.index = 0
+        self.label = tk.Label(parent)
+        self.label.pack()
+
+
