@@ -1,7 +1,7 @@
 import json
 import os
 from tkinter import filedialog, messagebox
-from EditSheeran.models.model import Card
+from models.model import Card
 
 class Controller:
     # handles updates & interactions between components

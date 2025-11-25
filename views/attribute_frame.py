@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import Tk, PhotoImage
 from tkinter import filedialog
 from PIL import Image, ImageTk
-from EditSheeran.overlay_images import *
-from EditSheeran.views.preview_frame import PreviewFrame
-from EditSheeran.models.model import Overlay
-from EditSheeran.controllers.controller import Controller
+from overlay_images import *
+from views.preview_frame import PreviewFrame
+from models.model import Overlay
+from controllers.controller import Controller
 
 class EyeSelector(tk.Frame):
     def __init__(self, parent, library):
