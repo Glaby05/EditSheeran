@@ -10,15 +10,15 @@ eyes = {
 }
 
 mouths = {
-    "open mouth" : os.path.join(BASE_DIR, "assets", "open_mouth.png"),
-    "smiling mouth" : os.path.join(BASE_DIR, "assets", "smiling_mouth.png"),
-    "tongue mouth" : os.path.join(BASE_DIR, "assets", "tongue_mouth.png"),
+    "open mouth": os.path.join(BASE_DIR, "assets", "open_mouth.png"),
+    "smiling mouth": os.path.join(BASE_DIR, "assets", "smiling_mouth.png"),
+    "tongue mouth": os.path.join(BASE_DIR, "assets", "tongue_mouth.png"),
 }
 accessories = {
-    "cowboy hat" : os.path.join(BASE_DIR, "assets", "cowboy_hat.png"),
-    "witch hat" : os.path.join(BASE_DIR, "assets", "witch_hat.png"),
-    "santa hat" : os.path.join(BASE_DIR, "assets", "santa_hat.png"),
-    "leprechaun hat" : os.path.join(BASE_DIR, "assets", "leprechaun_hat.png"),
+    "cowboy hat": os.path.join(BASE_DIR, "assets", "cowboy_hat.png"),
+    "witch hat": os.path.join(BASE_DIR, "assets", "witch_hat.png"),
+    "santa hat": os.path.join(BASE_DIR, "assets", "santa_hat.png"),
+    "leprechaun hat": os.path.join(BASE_DIR, "assets", "leprechaun_hat.png"),
 }
 
 def load_eyes():

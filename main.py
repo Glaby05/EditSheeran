@@ -44,5 +44,5 @@ class App(tk.Tk):
         self.config(menu=menubar)
 
 if __name__ == "__main__":
-     app = App()
-     app.mainloop()
+    app = App()
+    app.mainloop()
