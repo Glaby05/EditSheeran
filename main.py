@@ -1,70 +1,48 @@
-# Window / Root with fixed size - done sw
-# put Frames as partitions of the app:
-#   - to divide the app into different main parts
-#   -> left: options for Ed Sheeran pictures (1/4 of window vertically)
-#   -> middle: the main editing Frame/scene  (2-3/4 of window vertically)
-#   -> right: (last quarter of window vertically)
-#       -> top:
-#       -> bottom: display the last update of the picture
-#
-# class App(tk.Tk):
-#     def __init__(self):
-#         super().__init__()
-#         self.title("Ed Sheeran Photo Editor")
-#         self.geometry("1200x700")
-#
-#         self.card = None  # shared model
-#
-#         # self.attributes_frame = AttributesFrame()
-#         # self.preview_frame = PreviewFrame(self)
-#         # self.photobook_frame = PhotobookFrame(self)
-#
-#         # self.attributes_frame.pack(side="left", fill="y")
-#         # self.preview_frame.pack(side="left", expand=True, fill="both")
-#         # self.photobook_frame.pack(side="right", fill="y")
-#
-#     def create_widgets(self):
-#         pass
-import os.path
+import json
+import os
+import tkinter as tk
+from tkinter import filedialog, messagebox
 
-# class ImageEditor:
-#     # Note: we can also grayscale the image to further edit them, like the
-#     # contrast etc. BUT my concern is making the Ed too editable will drive the
-#     # user away from editing the actual card
-#     # (which is also Prof's concern from OH)
-#     def __init__(self, master):
-#         self.master = master
-#         master.title("Image Editor")
-#
-#         self.image = None  # in the form of file opened
-#         self.photo_image = None  # ImageTk.PhotoImage(self.image)
-#         self.canvas = tk.Canvas(master, bg="lightgray")
-#         self.canvas.pack(fill=tk.BOTH, expand=True)
-#
-#         self.create_widgets()
-#
-#     def create_widgets(self):
-#         # buttons that triggers the change of chosen photo_image
-#         # trigger -> command=self.display_image
-#         pass
-#
-#     def display_image(self):
-#         self.open_image()
-#         if self.image:
-#             self.photo_image = ImageTk.PhotoImage(self.image)
-#         pass
-#
-#     def open_image(self):
-#         # update (Properties.state) with the chosen image
-#         # get image from one of the Ed Pict, from properties.py class object
-#         pass
-#
-# root = App()
-# root.mainloop()
+from EditSheeran.models.model import Card
+from EditSheeran.views.attribute_frame import AttributesFrame
+from EditSheeran.views.photobook_frame import PhotobookFrame
+from EditSheeran.views.preview_frame import PreviewFrame
+from EditSheeran.controllers.controller import Controller
 
-from views.view import App
-from views.initial_frame import WelcomeOverlay
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("1200x700")
+        self.title("EditSheeran")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(base_dir, '..', 'assets', 'ed.ico')
+        self.iconbitmap(icon_path)
+
+        self.controller = Controller(self)
+
+        self.attributes = AttributesFrame(self, self.controller)
+        self.preview = PreviewFrame(self, self.controller)
+        self.photobook = PhotobookFrame(self, self.controller)
+
+        self.attributes.pack(side="left", fill="y")
+        self.preview.pack(side="left", fill="both", expand=True)
+        self.photobook.pack(side="right", fill="y")
+
+        self.create_menu()
+
+    def create_menu(self):
+        menubar = tk.Menu(self)
+        file_menu = tk.Menu(menubar, tearoff=0)
+        file_menu.add_command(label="New Card", command=self.controller.new_card)
+        file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
+        file_menu.add_command(label="Save to Photobook", command=self.controller.save_card)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=self.quit)
+
+        menubar.add_cascade(label="File", menu=file_menu)
+        self.config(menu=menubar)
+
 if __name__ == "__main__":
      app = App()
-     welcome_prompt = WelcomeOverlay(app)
      app.mainloop()
