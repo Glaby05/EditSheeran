@@ -146,10 +146,8 @@ class AttributesFrame(tk.Frame):
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
         self.mouth_selector.pack(pady=20)
-        self.accessories_selector = EyeSelector(self, library=accessories)
+        self.accessories_selector = AccessoriesSelector(self, library=accessories)
         self.accessories_selector.pack(pady=30)
-
-
 
     def apply_scale(self):
         card = self.parent.card
