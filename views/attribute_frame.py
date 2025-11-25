@@ -61,7 +61,7 @@ class MouthSelector(tk.Frame):
 
         self.label = tk.Label(self)
         self.label.grid(row=1, column=1, padx=5)
-        self.label2 = tk.Label(self, text="Eyes")
+        self.label2 = tk.Label(self, text="Mouths")
         self.label2.grid(row=0, column=1, padx=5)
 
         self.btn_next = tk.Button(self, text="▶", command=self.next)
@@ -100,7 +100,7 @@ class AccessoriesSelector(tk.Frame):
 
         self.label = tk.Label(self)
         self.label.grid(row=1, column=1, padx=5)
-        self.label2 = tk.Label(self, text="Eyes")
+        self.label2 = tk.Label(self, text="Accessories")
         self.label2.grid(row=0, column=1, padx=5)
 
         self.btn_next = tk.Button(self, text="▶", command=self.next)
