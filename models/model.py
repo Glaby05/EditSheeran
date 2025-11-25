@@ -42,6 +42,13 @@ class Card:
             )
         return c
 
+class EdSheeran:
+    def __init__(self, img= "assets/ed.ico", x=0, y=0,scale=5.0):
+        self.image = img
+        self.x = x
+        self.y = y
+        self.scale = scale
+
 
 class Overlay:
     def __init__(self, img_path, x=0, y=0, scale=1.0):
