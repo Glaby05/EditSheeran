@@ -7,7 +7,7 @@ class Controller:
     # handles updates & interactions between components
     def __init__(self, app):
         self.app = app
-        self.card = None
+        self.card = Card()
 
     def update_preview(self):
         self.app.preview.preview_card(self.card)
