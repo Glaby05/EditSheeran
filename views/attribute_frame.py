@@ -133,11 +133,11 @@ class AttributesFrame(tk.Frame):
 
         # frame = tk.Frame(self, width=1200, height=700)
 
-        self.scale = tk.DoubleVar(value=1.0)
-
-        tk.Scale(self, from_=0.2, to=3.0, orient="horizontal",
-                 variable=self.scale, command=self.apply_scale).pack(
-            fill="x", padx=10)
+        # self.scale = tk.DoubleVar(value=1.0)
+        #
+        # tk.Scale(self, from_=0.2, to=3.0, orient="horizontal",
+        #          variable=self.scale, command=self.apply_scale).pack(
+        #     fill="x", padx=10)
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
             pady=10
