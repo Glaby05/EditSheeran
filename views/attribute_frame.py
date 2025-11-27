@@ -8,29 +8,8 @@ from models.model import Overlay, EdSheeran
 from controllers.controller import Controller
 
 
-class EdSelector(tk.Frame):
-    def __init__(self, parent, library):
-        super().__init__(parent)
-        self.library = library
-        self.keys = list(library.keys())
-        self.index = 0
-        for k, path in eds.items():
-            pil_img = Image.open(path).resize((100, 100))
-            self.library[k] = ImageTk.PhotoImage(pil_img)
-
-        self.btn_prev = tk.Button(self, text="◀", command=self.prev)
-        self.btn_prev.grid(row=1, column=0, padx=5)
-
-        self.label = tk.Label(self)
-        self.label.grid(row=1, column=1, padx=5)
-        self.label2 = tk.Label(self, text="Eds")
-        self.label2.grid(row=0, column=1, padx=5)
-
-        self.btn_next = tk.Button(self, text="▶", command=self.next)
-        self.btn_next.grid(row=1, column=2, padx=5)
-
-        self.update_image()
-
+class Selector(tk.Frame):
+    # TO MAKE THE CLASSES CLEANER BY REFACTORING THE CODE
     def update_image(self):
         key = self.keys[self.index]
         img = self.library[key]
@@ -48,7 +27,31 @@ class EdSelector(tk.Frame):
         self.label.config(image=self.library[current_key])
 
 
-class EyeSelector(tk.Frame):
+class EdSelector(Selector):
+    def __init__(self, parent, library):
+        super().__init__(parent)
+        self.library = library
+        self.keys = list(library.keys())
+        self.index = 0
+        for k, path in eds.items():
+            pil_img = Image.open(path).resize((100, 100))
+            self.library[k] = ImageTk.PhotoImage(pil_img)
+
+        self.btn_prev = tk.Button(self, text="◀", command=self.prev)
+        self.btn_prev.grid(row=1, column=0, padx=5)
+
+        self.label = tk.Label(self)
+        self.label.grid(row=1, column=1, padx=5)
+        self.label2 = tk.Label(self, text="Ed")
+        self.label2.grid(row=0, column=1, padx=5)
+
+        self.btn_next = tk.Button(self, text="▶", command=self.next)
+        self.btn_next.grid(row=1, column=2, padx=5)
+
+        self.update_image()
+
+
+class EyeSelector(Selector):
     def __init__(self, parent, library):
         super().__init__(parent)
         self.library = library
@@ -71,24 +74,8 @@ class EyeSelector(tk.Frame):
 
         self.update_image()
 
-    def update_image(self):
-        key = self.keys[self.index]
-        img = self.library[key]
-        self.label.img = img  # keep reference
-        self.label.config(image=img)
 
-    def next(self):
-        self.index = (self.index + 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
-    def prev(self):
-        self.index = (self.index - 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
-
-class MouthSelector(tk.Frame):
+class MouthSelector(Selector):
     def __init__(self, parent, library):
         super().__init__(parent)
         self.library = library
@@ -111,24 +98,8 @@ class MouthSelector(tk.Frame):
 
         self.update_image()
 
-    def update_image(self):
-        key = self.keys[self.index]
-        img = self.library[key]
-        self.label.img = img  # keep reference
-        self.label.config(image=img)
 
-    def next(self):
-        self.index = (self.index + 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
-    def prev(self):
-        self.index = (self.index - 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
-
-class AccessoriesSelector(tk.Frame):
+class AccessoriesSelector(Selector):
     def __init__(self, parent, library):
         super().__init__(parent)
         self.library = library
@@ -151,22 +122,6 @@ class AccessoriesSelector(tk.Frame):
 
         self.update_image()
 
-    def update_image(self):
-        key = self.keys[self.index]
-        img = self.library[key]
-        self.label.img = img  # keep reference
-        self.label.config(image=img)
-
-    def next(self):
-        self.index = (self.index + 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
-    def prev(self):
-        self.index = (self.index - 1) % len(self.keys)
-        current_key = self.keys[self.index]
-        self.label.config(image=self.library[current_key])
-
 
 class AttributesFrame(tk.Frame):
     # the left screen of the app
@@ -179,10 +134,6 @@ class AttributesFrame(tk.Frame):
 
         self.scale = tk.DoubleVar(value=1.0)
 
-        # tk.Scale(self, from_=0.2, to=3.0, orient="horizontal",
-        #          variable=self.scale, command=self.apply_scale).pack(
-        #     fill="x", padx=10)
-
         self.ed_selector = EdSelector(self, library=eds)
         self.ed_selector.pack(pady=20)
 
@@ -194,7 +145,8 @@ class AttributesFrame(tk.Frame):
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
         self.mouth_selector.pack(pady=20)
-        self.accessories_selector = AccessoriesSelector(self, library=accessories)
+        self.accessories_selector = AccessoriesSelector(self,
+                                                        library=accessories)
         self.accessories_selector.pack(pady=30)
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
@@ -225,4 +177,3 @@ class AttributesFrame(tk.Frame):
         # self.parent.preview.draw_card(card)
 
         self.controller.update_preview()
-

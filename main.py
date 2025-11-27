@@ -13,7 +13,7 @@ from controllers.controller import Controller
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("1200x700")
+        self.geometry("1200x800")
         self.title("EditSheeran")
         base_dir = os.path.dirname(os.path.abspath(__file__))
         icon_path = os.path.join(base_dir, 'assets', 'ed.ico')

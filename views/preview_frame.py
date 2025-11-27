@@ -18,7 +18,11 @@ class PreviewFrame(tk.Frame):
         self.canvas = tk.Canvas(self, bg="lightgray")
         self.canvas.pack(fill="both", expand=True)
 
+        self.card = Card()
+
         self._image_cache = []
+
+        self.preview_card(self.card)
 
     def preview_card(self, card: Card):
         # clear canvas

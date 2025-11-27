@@ -27,6 +27,10 @@ eds = {
     "ed speaking": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
 }
 
+cards = {
+
+}
+
 
 def load_eyes():
 

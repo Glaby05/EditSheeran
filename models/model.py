@@ -2,14 +2,16 @@
 import tkinter as tk
 from overlay_images import *
 
+
 class State:
     def __init__(self):
         pass
 
+
 class Card:
     def __init__(self, base_image_path="blank_card.jpg"):
         # self.type = None
-        self.base = base_image_path
+        self.base = os.path.join(BASE_DIR, "assets", base_image_path)
         self.ed = EdSheeran("ed_normal.png", x=50, y=50, scale=1.0)
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
@@ -42,8 +44,9 @@ class Card:
             )
         return c
 
+
 class EdSheeran:
-    def __init__(self, img= "assets/ed.ico", x=0, y=0,scale=5.0):
+    def __init__(self, img="assets/ed.ico", x=0, y=0, scale=5.0):
         self.image = img
         self.x = x
         self.y = y
@@ -68,11 +71,6 @@ class Eyes(Overlay):
         self.label.pack()
 
 
-
-class Nose(Overlay):
-    pass
-
-
 class Lips(Overlay):
     def __init__(self, library, parent, img_path):
         super().__init__(img_path)
@@ -91,5 +89,3 @@ class Accessory(Overlay):
         self.index = 0
         self.label = tk.Label(parent)
         self.label.pack()
-
-
