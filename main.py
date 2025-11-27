@@ -20,10 +20,10 @@ class App(tk.Tk):
         self.iconbitmap(icon_path)
 
         self.controller = Controller(self)
-
-        self.attributes = AttributesFrame(self, self.controller)
+        # self.card = Card()
         self.preview = PreviewFrame(self, self.controller)
-        self.photobook = PhotobookFrame(self, self.controller)
+        self.attributes = AttributesFrame(self, self.controller, self.preview.card)
+        self.photobook = PhotobookFrame(self, self.controller, self.preview.card)
 
         self.attributes.pack(side="left", fill="y")
         self.preview.pack(side="left", fill="both", expand=True)
