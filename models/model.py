@@ -68,10 +68,6 @@ class Eyes(Overlay):
 
 
 
-class Nose(Overlay):
-    pass
-
-
 class Lips(Overlay):
     def __init__(self, library, parent, img_path):
         super().__init__(img_path)

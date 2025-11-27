@@ -3,6 +3,11 @@ from tkinter import PhotoImage
 
 BASE_DIR = os.path.dirname(__file__)
 
+eds = {
+    "normal ed": os.path.join(BASE_DIR, "assets", "ed_normal.png"),
+    "monkey ed": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),
+    "speaking ed": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
+}
 eyes = {
     "heart eyes": os.path.join(BASE_DIR, "assets", "HEART_EYES.png"),
     "blue eyes": os.path.join(BASE_DIR, "assets", "BIG_BLUE_EYES.png"),
