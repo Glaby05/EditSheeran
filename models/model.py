@@ -9,13 +9,14 @@ class State:
 
 
 class Card:
-    def __init__(self, base_image_path="blank_card.jpg"):
+    def __init__(self, base_image_path="blank_card.jpg", scale=1.0):
         # self.type = None
         self.base = os.path.join(BASE_DIR, "assets", base_image_path)
         self.ed = EdSheeran("ed_normal.png", x=50, y=50, scale=1.0)
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""
+        self.scale = scale
 
     def to_dict(self):
         return {
@@ -46,8 +47,8 @@ class Card:
 
 
 class EdSheeran:
-    def __init__(self, img="assets/ed.ico", x=0, y=0, scale=5.0):
-        self.image = img
+    def __init__(self, img="ed.ico", x=0, y=0, scale=5.0):
+        self.image = os.path.join(BASE_DIR, "assets", img)
         self.x = x
         self.y = y
         self.scale = scale
