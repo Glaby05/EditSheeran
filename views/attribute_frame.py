@@ -183,7 +183,7 @@ class AttributesFrame(tk.Frame):
         for ov in [self.eye_selector, self.mouth_selector, self.accessories_selector]:
             key = ov.keys[ov.index]
             path = ov.library[key][0]
-            new_overlay = Overlay(path, x=0, y=0, scale=self.scale)
+            new_overlay = Overlay(path, x=20, y=20, scale=self.scale)
             card.overlays.append(new_overlay)
             # self.parent.preview.draw_card(card)
 

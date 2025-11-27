@@ -56,7 +56,7 @@ class EdSheeran:
 
 class Overlay:
     def __init__(self, img_path, x=0, y=0, scale=1.0):
-        self.img_path = img_path
+        self.img_path = os.path.join(BASE_DIR, "assets", img_path)
         self.x = x
         self.y = y
         self.scale = scale
