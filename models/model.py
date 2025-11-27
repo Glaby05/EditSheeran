@@ -10,6 +10,7 @@ class Card:
     def __init__(self, base_image_path="blank_card.jpg"):
         # self.type = None
         self.base = base_image_path
+        self.ed = EdSheeran("ed_normal.png", x=50, y=50, scale=1.0)
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""

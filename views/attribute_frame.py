@@ -140,8 +140,8 @@ class AttributesFrame(tk.Frame):
 
         # frame = tk.Frame(self, width=1200, height=700)
 
-        # self.scale = tk.DoubleVar(value=1.0)
-        #
+        self.scale = tk.DoubleVar(value=1.0)
+
         # tk.Scale(self, from_=0.2, to=3.0, orient="horizontal",
         #          variable=self.scale, command=self.apply_scale).pack(
         #     fill="x", padx=10)
@@ -175,8 +175,7 @@ class AttributesFrame(tk.Frame):
         card = self.parent.card
         ed_path = filedialog.askopenfilename()
 
-        new_ed = EdSheeran(ed_path, x=50, y=50, scale=1.0)
-        card.overlays.append(new_ed)
+        card.ed = EdSheeran(ed_path)
 
         self.controller.update_preview()
 
@@ -184,27 +183,9 @@ class AttributesFrame(tk.Frame):
         card = self.parent.card
         overlay_path = filedialog.askopenfilename()
 
-        new_overlay = Overlay(overlay_path, x=50, y=50, scale=1.0)
+        new_overlay = Overlay(overlay_path, x=50, y=50, scale=self.scale)
         card.overlays.append(new_overlay)
         # self.parent.preview.draw_card(card)
 
         self.controller.update_preview()
 
-
-
-
-
-
-
-    # def update_overlay(self, preview_frame: PreviewFrame):
-    #     card = self.parent.card
-    #     # edit the Ed model
-    #
-    #     # scale the overlay
-    #
-    #     self.parent.preview_frame.preview_card(card)
-    #     pass
-
-    #
-    #     self.parent.preview_frame.preview_card(card)
-    #     pass
