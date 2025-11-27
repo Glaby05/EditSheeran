@@ -10,7 +10,7 @@ from controllers.controller import Controller
 # - Canvas -> to draw shapes & images
 class PreviewFrame(tk.Frame):
     # The center screen of the application
-    def __init__(self, parent, controller: Controller):
+    def __init__(self, parent, controller: Controller, card: Card):
         super().__init__(parent, bg="white")
         self.parent = parent
         self.controller = controller
@@ -18,7 +18,7 @@ class PreviewFrame(tk.Frame):
         self.canvas = tk.Canvas(self, bg="lightgray")
         self.canvas.pack(fill="both", expand=True)
 
-        self.card = Card()
+        self.card = card
 
         self._image_cache = []
 
