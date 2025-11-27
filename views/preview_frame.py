@@ -11,7 +11,7 @@ from controllers.controller import Controller
 class PreviewFrame(tk.Frame):
     # The center screen of the application
     def __init__(self, parent, controller: Controller, card: Card):
-        super().__init__(parent, bg="white")
+        super().__init__(parent, height=600, bg="white")
         self.parent = parent
         self.controller = controller
 

@@ -37,7 +37,7 @@ class EdSelector(Selector):
         self.index = 0
         for k, path in eds.items():
             self.path = path
-            self.pil_img = Image.open(path).resize((100, 100))
+            self.pil_img = Image.open(path).resize((100, 80))
             self.library[k] = [self.path, self.pil_img, ImageTk.PhotoImage(self.pil_img)]
 
         self.btn_prev = tk.Button(self, text="◀", command=self.prev)
@@ -62,7 +62,7 @@ class EyeSelector(Selector):
         self.index = 0
         for k, path in eyes.items():
             self.path = path
-            self.pil_img = Image.open(path).resize((100, 100))
+            self.pil_img = Image.open(path).resize((100, 80))
             self.library[k] = [self.path, self.pil_img, ImageTk.PhotoImage(self.pil_img)]
 
         self.btn_prev = tk.Button(self, text="◀", command=self.prev)
@@ -87,7 +87,7 @@ class MouthSelector(Selector):
         self.index = 0
         for k, path in mouths.items():
             self.path = path
-            self.pil_img = Image.open(path).resize((100, 100))
+            self.pil_img = Image.open(path).resize((100, 80))
             self.library[k] = [self.path, self.pil_img, ImageTk.PhotoImage(self.pil_img)]
 
         self.btn_prev = tk.Button(self, text="◀", command=self.prev)
@@ -112,7 +112,7 @@ class AccessoriesSelector(Selector):
         self.index = 0
         for k, path in accessories.items():
             self.path = path
-            self.pil_img = Image.open(path).resize((100, 100))
+            self.pil_img = Image.open(path).resize((100, 80))
             self.library[k] = [self.path, self.pil_img, ImageTk.PhotoImage(self.pil_img)]
 
         self.btn_prev = tk.Button(self, text="◀", command=self.prev)
@@ -132,7 +132,7 @@ class AccessoriesSelector(Selector):
 class AttributesFrame(tk.Frame):
     # the left screen of the app
     def __init__(self, parent, controller: Controller, card: Card):
-        super().__init__(parent, width=120, height=700, bg="white")
+        super().__init__(parent, width=120, height=600, bg="white")
         self.parent = parent
         self.controller = controller
         self.card = card
@@ -141,7 +141,7 @@ class AttributesFrame(tk.Frame):
         self.scale = tk.DoubleVar(value=1.0)
 
         self.ed_selector = EdSelector(self, library=eds)
-        self.ed_selector.pack(pady=20)
+        self.ed_selector.pack(pady=5)
 
         tk.Button(self,
                   text="Add Ed",
@@ -151,10 +151,10 @@ class AttributesFrame(tk.Frame):
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
-        self.mouth_selector.pack(pady=20)
+        self.mouth_selector.pack(pady=10)
         self.accessories_selector = AccessoriesSelector(self,
                                                         library=accessories)
-        self.accessories_selector.pack(pady=30)
+        self.accessories_selector.pack(pady=10)
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
             pady=10
@@ -169,7 +169,6 @@ class AttributesFrame(tk.Frame):
 
     def add_base_ed(self, index):
         card = self.card
-        # ed_path = filedialog.askopenfilename()
         key = self.ed_selector.keys[index]
         path = self.ed_selector.library[key][0]
         # tk_img = self.ed_selector.library[key][2]
@@ -180,12 +179,11 @@ class AttributesFrame(tk.Frame):
 
     def add_overlay(self):
         card = self.card
-        # overlay_path = filedialog.askopenfilename()
 
         for ov in [self.eye_selector, self.mouth_selector, self.accessories_selector]:
             key = ov.keys[ov.index]
             path = ov.library[key][0]
-            new_overlay = Overlay(path, x=50, y=50, scale=self.scale)
+            new_overlay = Overlay(path, x=0, y=0, scale=self.scale)
             card.overlays.append(new_overlay)
             # self.parent.preview.draw_card(card)
 

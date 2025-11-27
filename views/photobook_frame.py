@@ -13,7 +13,7 @@ class PhotobookFrame(tk.Frame):
     # /photobook is a directory that stores all created cards
 
     def __init__(self, parent, controller: Controller, card: Card):
-        super().__init__(parent, width=250)
+        super().__init__(parent, width=250, height=600)
         self.parent = parent
         self.controller = controller
         self.card = card
