@@ -4,8 +4,12 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from overlay_images import *
 from views.preview_frame import PreviewFrame
-from models.model import Overlay
+from models.model import Overlay, EdSheeran
 from controllers.controller import Controller
+
+
+class EdSelector(tk.Frame):
+    pass
 
 class EyeSelector(tk.Frame):
     def __init__(self, parent, library):
@@ -46,6 +50,7 @@ class EyeSelector(tk.Frame):
         current_key = self.keys[self.index]
         self.label.config(image=self.library[current_key])
 
+
 class MouthSelector(tk.Frame):
     def __init__(self, parent, library):
         super().__init__(parent)
@@ -84,6 +89,7 @@ class MouthSelector(tk.Frame):
         self.index = (self.index - 1) % len(self.keys)
         current_key = self.keys[self.index]
         self.label.config(image=self.library[current_key])
+
 
 class AccessoriesSelector(tk.Frame):
     def __init__(self, parent, library):
@@ -124,6 +130,7 @@ class AccessoriesSelector(tk.Frame):
         current_key = self.keys[self.index]
         self.label.config(image=self.library[current_key])
 
+
 class AttributesFrame(tk.Frame):
     # the left screen of the app
     def __init__(self, parent, controller: Controller):
@@ -139,9 +146,13 @@ class AttributesFrame(tk.Frame):
         #          variable=self.scale, command=self.apply_scale).pack(
         #     fill="x", padx=10)
 
-        tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
+        self.ed_selector = EdSelector(self, library=eds)
+        self.ed_selector.pack(pady=20)
+
+        tk.Button(self, text="Add Ed", command=self.add_base_ed).pack(
             pady=10
         )
+
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
@@ -149,12 +160,25 @@ class AttributesFrame(tk.Frame):
         self.accessories_selector = AccessoriesSelector(self, library=accessories)
         self.accessories_selector.pack(pady=30)
 
+        tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
+            pady=10
+        )
+
     def apply_scale(self):
         card = self.parent.card
         if not card or not card.overlays:
             return
         card.overlays[-1].scale = self.scale.get()
         self.parent.preview.preview_card(card)
+
+    def add_base_ed(self):
+        card = self.parent.card
+        ed_path = filedialog.askopenfilename()
+
+        new_ed = EdSheeran(ed_path, x=50, y=50, scale=1.0)
+        card.overlays.append(new_ed)
+
+        self.controller.update_preview()
 
     def add_overlay(self):
         card = self.parent.card
