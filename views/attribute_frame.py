@@ -4,7 +4,7 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from overlay_images import *
 from views.preview_frame import PreviewFrame
-from models.model import Card, Overlay, EdSheeran
+from models.model import Card, EdSheeran, Eyes, Lips, Accessory
 from controllers.controller import Controller
 
 
@@ -180,11 +180,22 @@ class AttributesFrame(tk.Frame):
     def add_overlay(self):
         card = self.card
 
-        for ov in [self.eye_selector, self.mouth_selector, self.accessories_selector]:
-            key = ov.keys[ov.index]
-            path = ov.library[key][0]
-            new_overlay = Overlay(path, x=20, y=20, scale=self.scale)
-            card.overlays.append(new_overlay)
-            # self.parent.preview.draw_card(card)
+        key = self.eye_selector.keys[self.eye_selector.index]
+        path = self.eye_selector.library[key][0]
+        eyes_ov = Eyes(path, x=190, y=190, scale=0.2)
+        card.overlays.append(eyes_ov)
+
+        key = self.mouth_selector.keys[self.mouth_selector.index]
+        path = self.mouth_selector.library[key][0]
+        lips_ov = Lips(path, x=140, y=220, scale=0.4)
+        card.overlays.append(lips_ov)
+
+        key = self.accessories_selector.keys[self.accessories_selector.index]
+        path = self.accessories_selector.library[key][0]
+        acc_ov = Accessory(path, x=110, y=0, scale=1.2)
+        card.overlays.append(acc_ov)
 
         self.controller.update_preview()
+
+# SCALING RULES:
+# ed_normal (x=50, y=90, scale=0.75) -> hat accessory (x=110, y=0, scale=1.2)
