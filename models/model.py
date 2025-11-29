@@ -2,17 +2,21 @@
 import tkinter as tk
 from overlay_images import *
 
+
 class State:
     def __init__(self):
         pass
 
+
 class Card:
-    def __init__(self, base_image_path="blank_card.jpg"):
+    def __init__(self, base_image_path="blank_card.jpg", scale=1.0):
         # self.type = None
-        self.base = base_image_path
+        self.base = os.path.join(BASE_DIR, "assets", base_image_path)
+        self.ed = EdSheeran("ed_normal.png")
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""
+        self.scale = scale
 
     def to_dict(self):
         return {
@@ -41,50 +45,48 @@ class Card:
             )
         return c
 
+
 class EdSheeran:
-    def __init__(self, img= "assets/ed.ico", x=0, y=0,scale=5.0):
-        self.image = img
+    def __init__(self, img="ed.ico", x=50, y=90, scale=0.75):
+        self.image = os.path.join(BASE_DIR, "assets", img)
         self.x = x
         self.y = y
         self.scale = scale
 
 
 class Overlay:
-    def __init__(self, img_path, x=0, y=0, scale=1.0):
-        self.img_path = img_path
+    def __init__(self, img_path, x=0, y=0, scale=2.0):
+        self.img_path = os.path.join(BASE_DIR, "assets", img_path)
         self.x = x
         self.y = y
         self.scale = scale
 
 
 class Eyes(Overlay):
-    def __init__(self, library, parent, img_path):
-        super().__init__(img_path)
+    def __init__(self, img_path, x=0, y=0, scale=1.0):
+        super().__init__(img_path, x, y, scale)
         self.library = eyes
-        self.keys = list(library.keys())
-        self.index = 0
-        self.label = tk.Label(parent)
-        self.label.pack()
-
+        # self.keys = list(library.keys())
+        # self.index = 0
+        # self.label = tk.Label(parent)
+        # self.label.pack()
 
 
 class Lips(Overlay):
-    def __init__(self, library, parent, img_path):
-        super().__init__(img_path)
+    def __init__(self, img_path, x=0, y=0, scale=1.0):
+        super().__init__(img_path, x, y, scale)
         self.library = mouths
-        self.keys = list(library.keys())
-        self.index = 0
-        self.label = tk.Label(parent)
-        self.label.pack()
+        # self.keys = list(self.library.keys())
+        # self.index = 0
+        # self.label = tk.Label(parent)
+        # self.label.pack()
 
 
 class Accessory(Overlay):
-    def __init__(self, library, parent, img_path):
-        super().__init__(img_path)
+    def __init__(self, img_path, x=0, y=0, scale=1.0):
+        super().__init__(img_path, x, y, scale)
         self.library = accessories
-        self.keys = list(library.keys())
-        self.index = 0
-        self.label = tk.Label(parent)
-        self.label.pack()
-
-
+        # self.keys = list(self.library.keys())
+        # self.index = 0
+        # self.label = tk.Label(parent)
+        # self.label.pack()

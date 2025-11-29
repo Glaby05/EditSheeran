@@ -13,7 +13,7 @@ from controllers.controller import Controller
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("1200x700")
+        self.geometry("1200x600")
         self.title("EditSheeran")
         base_dir = os.path.dirname(os.path.abspath(__file__))
         icon_path = os.path.join(base_dir, 'assets', 'ed.ico')
@@ -21,9 +21,9 @@ class App(tk.Tk):
 
         self.controller = Controller(self)
 
-        self.attributes = AttributesFrame(self, self.controller)
-        self.preview = PreviewFrame(self, self.controller)
-        self.photobook = PhotobookFrame(self, self.controller)
+        self.preview = PreviewFrame(self, self.controller, self.controller.card)
+        self.attributes = AttributesFrame(self, self.controller, self.controller.card)
+        self.photobook = PhotobookFrame(self, self.controller, self.controller.card)
 
         self.attributes.pack(side="left", fill="y")
         self.preview.pack(side="left", fill="both", expand=True)
@@ -35,13 +35,14 @@ class App(tk.Tk):
         menubar = tk.Menu(self)
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(label="New Card", command=self.controller.new_card)
-        file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
+        # file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
         file_menu.add_command(label="Save to Photobook", command=self.controller.save_card)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.quit)
 
         menubar.add_cascade(label="File", menu=file_menu)
         self.config(menu=menubar)
+
 
 if __name__ == "__main__":
     app = App()

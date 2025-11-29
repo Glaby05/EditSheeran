@@ -12,10 +12,11 @@ class PhotobookFrame(tk.Frame):
     # right screen of the app
     # /photobook is a directory that stores all created cards
 
-    def __init__(self, parent, controller: Controller):
-        super().__init__(parent, width=250)
+    def __init__(self, parent, controller: Controller, card: Card):
+        super().__init__(parent, width=250, height=600)
         self.parent = parent
         self.controller = controller
+        self.card = card
 
         self.listbox = tk.Listbox(self)
         self.listbox.pack(fill="both", expand=True, padx=10, pady=10)

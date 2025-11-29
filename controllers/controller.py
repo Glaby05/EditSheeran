@@ -17,7 +17,7 @@ class Controller:
         self.update_preview()
 
     def load_base(self):
-        path = filedialog.askopenfilename(title="Choose a picture of Ed")
+        path = filedialog.askopenfilename(title="Choose a Card")
         if not path:
             return
         self.card.base = path
