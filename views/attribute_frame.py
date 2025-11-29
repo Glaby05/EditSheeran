@@ -4,9 +4,9 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from overlay_images import *
 from views.preview_frame import PreviewFrame
-from models.model import Card, EdSheeran, Eyes, Lips, Accessory
+from models.model import Card, EdSheeran, Eyes, Lips, Accessory, CardTemplate
 from controllers.controller import Controller
-
+from tkinter import Menubutton
 
 class Selector(tk.Frame):
     # TO MAKE THE CLASSES CLEANER BY REFACTORING THE CODE
@@ -131,17 +131,38 @@ class AccessoriesSelector(Selector):
 
 class AttributesFrame(tk.Frame):
     # the left screen of the app
-    def __init__(self, parent, controller: Controller, card: Card):
+    def __init__(self, parent, controller: Controller, card: Card, cardtemplate: CardTemplate):
         super().__init__(parent, width=120, height=600, bg="white")
         self.parent = parent
         self.controller = controller
         self.card = card
+        self.cardtemplate = cardtemplate
         # frame = tk.Frame(self, width=1200, height=700)
 
         self.scale = tk.DoubleVar(value=1.0)
 
         self.ed_selector = EdSelector(self, library=eds)
         self.ed_selector.pack(pady=5)
+
+        self.menu_button = tk.Menubutton(self, text="Choose A Card Template", relief="raised")
+        self.menu_button.pack()
+
+        #internal drop-down menu
+        self.menu = tk.Menu(self.menu_button, tearoff=0)
+        self.menu_button.config(menu=self.menu)
+
+        # Add each CardTemplate's image + name to the menu
+        for template in self.cardtemplate.library:
+            self.menu.add_command(
+                label=template.name,
+                image=template.tk_image,  # <-- use image from the class
+                compound="left",
+                command=lambda t=template: self.controller.select_template(t)
+            )
+
+    def set_preview(self, template):
+        """Update the label to show the selected card template."""
+        self.preview.config(image=template.tk_image)
 
         tk.Button(self,
                   text="Add Ed",

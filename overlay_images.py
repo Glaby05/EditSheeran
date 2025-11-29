@@ -4,9 +4,11 @@ from tkinter import PhotoImage
 BASE_DIR = os.path.dirname(__file__)
 
 cards = {
-    "christmas card": os.path.join(BASE_DIR, "assets", ""),
-    "monkey ed": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),
-    "speaking ed": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
+    "christmas card": os.path.join(BASE_DIR, "assets", "christmas card.jpg"),
+    "blank card": os.path.join(BASE_DIR, "assets", "blank_card.jpg"),
+    "floral card": os.path.join(BASE_DIR, "assets", "floral card.jpg"),
+    "halloween card": os.path.join(BASE_DIR, "assets", "halloween card.jpg"),
+    "st patties card": os.path.join(BASE_DIR, "assets", "st patties card.jpg")
 
 }
 eds = {
