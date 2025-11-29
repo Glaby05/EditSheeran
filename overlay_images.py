@@ -3,6 +3,12 @@ from tkinter import PhotoImage
 
 BASE_DIR = os.path.dirname(__file__)
 
+cards = {
+    "christmas card": os.path.join(BASE_DIR, "assets", ""),
+    "monkey ed": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),
+    "speaking ed": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
+
+}
 eds = {
     "normal ed": os.path.join(BASE_DIR, "assets", "ed_normal.png"),
     "monkey ed": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),

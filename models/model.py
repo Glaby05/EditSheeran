@@ -61,6 +61,10 @@ class Overlay:
         self.y = y
         self.scale = scale
 
+class Cards(Overlay):
+    def __init__(self,img_path, x=0, y=0, ):
+        super().__init__(img_path, x, y)
+        self.library = cards
 
 class Eyes(Overlay):
     def __init__(self, img_path, x=0, y=0, scale=1.0):
