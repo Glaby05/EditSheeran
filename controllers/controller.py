@@ -1,40 +1,38 @@
-import json
-import os
-from tkinter import filedialog, messagebox
-from models.model import Card
+from views.view import View
+from models.model import Card, Photobook
 
-class Controller:
-    # handles updates & interactions between components
-    def __init__(self, app):
-        self.app = app
-        self.card = Card()
+class EditSheeranController:
+    def __init__(self):
+        self.photobook = Photobook()
 
-    def update_preview(self):
-        self.app.preview.preview_card(self.card)
+        self.current_card = Card()
 
-    def new_card(self):
-        self.card = Card()
-        self.update_preview()
+        self.view = View(self)
 
-    def load_base(self):
-        path = filedialog.askopenfilename(title="Choose a Card")
-        if not path:
-            return
-        self.card.base = path
-        self.update_preview()
+        self.refresh_preview()
+
+    def refresh_preview(self):
+        data = self.current_card.get_state()
+        self.view.update_canvas(data)
+
+    def change_template(self, path):
+        self.current_card.set_base(path)
+        self.refresh_preview()
+
+    def add_accessory(self, path, x=None, y=None):
+        if x is None:
+            x = 200
+        if y is None:
+            y=250
+        self.current_card.add_overlay(path, x, y)
+        self.refresh_preview()
+
+    def run(self):
+        self.view.mainloop()
 
     def save_card(self):
-        directory = "photobook"
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        self.photobook.add_card(self.current_card)
+        self.photobook.save_to_computer()
 
-        name = self.card.name.replace(" ", "_") or "Untitled_Ed"
-        filename = f"{directory}/{name}.json"
-
-        try:
-            with open(filename, "w") as f:
-                json.dump(self.card.to_dict(), f, indent=4)
-            messagebox.showinfo("Saved", "Card saved to photobook!")
-            self.app.photobook_frame.update_list()
-        except Exception as e:
-            messagebox.showerror("Error", f"Could not save card: {e}")
+    def load_card(self, filename):
+        print(f"Loading {filename}...")

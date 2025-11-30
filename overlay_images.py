@@ -1,5 +1,4 @@
 import os
-from tkinter import PhotoImage
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -32,37 +31,3 @@ accessories = {
     "santa hat": os.path.join(BASE_DIR, "assets", "santa_hat.png"),
     "leprechaun hat": os.path.join(BASE_DIR, "assets", "leprechaun_hat.png"),
 }
-
-eds = {
-    "ed normal": os.path.join(BASE_DIR, "assets", "ed_normal.png"),
-    "ed monkey": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),
-    "ed speaking": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
-}
-
-
-def load_eyes():
-
-    BASE_DIR = os.path.dirname(__file__)
-    return {
-        name: PhotoImage(file=os.path.join(BASE_DIR, path))
-        for name, path in eyes.items()
-    }
-
-
-def load_mouths():
-
-    BASE_DIR = os.path.dirname(__file__)
-    return {
-        name: PhotoImage(file=os.path.join(BASE_DIR, path))
-        for name, path in mouths.items()
-    }
-
-
-def load_accessories():
-
-    BASE_DIR = os.path.dirname(__file__)
-    return {
-        name: PhotoImage(file=os.path.join(BASE_DIR, path))
-        for name, path in accessories.items()
-    }
-
