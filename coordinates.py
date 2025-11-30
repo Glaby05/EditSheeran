@@ -17,4 +17,4 @@ ED_COORDS = {
         "accessory": (60, 120)
     },
 }
-#recommiter
+#recommite

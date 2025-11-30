@@ -218,4 +218,4 @@ class AttributesFrame(tk.Frame):
         self.controller.update_preview()
 # SCALING RULES:
 # ed_normal (x=50, y=90, scale=0.75) -> hat accessory (x=110, y=0, scale=1.2)
-#recommitting
+#recommittin
