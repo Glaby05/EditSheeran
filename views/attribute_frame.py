@@ -147,6 +147,7 @@ class AttributesFrame(tk.Frame):
                   text="Add Ed",
                   command=lambda: self.add_base_ed(self.ed_selector.index)
                   ).pack(pady=10)
+
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
@@ -155,15 +156,11 @@ class AttributesFrame(tk.Frame):
                                                         library=accessories)
         self.accessories_selector.pack(pady=10)
 
-
-
-
-
-
-
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
             pady=10
         )
+        tk.Button(self, text="Clear Accessories", command=self.clear_overlays).pack(pady=10)
+        tk.Button(self, text="Clear Base Ed", command=self.clear_base_ed).pack(pady=10)
 
     def apply_scale(self):
         card = self.card
@@ -212,5 +209,12 @@ class AttributesFrame(tk.Frame):
 
         self.controller.update_preview()
 
+    def clear_overlays(self):
+        self.card.overlays = []
+        self.controller.update_preview()
+
+    def clear_base_ed(self):
+        self.card.ed = None
+        self.controller.update_preview()
 # SCALING RULES:
 # ed_normal (x=50, y=90, scale=0.75) -> hat accessory (x=110, y=0, scale=1.2)
