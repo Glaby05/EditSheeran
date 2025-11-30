@@ -8,11 +8,11 @@ class State:
         pass
 
 class Card:
-    def __init__(self, base_image_path= "assets/blank_card.jpg", scale=1.0):
+    def __init__(self, base_image_path= "assets/base card.jpg", scale=1.0):
         # self.type = None
         self.base = base_image_path
         self.cardtemplate = CardTemplate
-        self.ed = EdSheeran("ed_normal.png")
+        self.ed = EdSheeran("ed_normal.png", 300, 400)
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""
