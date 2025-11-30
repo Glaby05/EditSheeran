@@ -131,19 +131,24 @@ class AccessoriesSelector(Selector):
 
 class AttributesFrame(tk.Frame):
     # the left screen of the app
-    def __init__(self, parent, controller: Controller, card: Card, cardtemplate: CardTemplate):
+    def __init__(self, parent, controller: Controller, card: Card):
         super().__init__(parent, width=120, height=600, bg="white")
         self.parent = parent
         self.controller = controller
         self.card = card
-        self.cardtemplate = cardtemplate
         # frame = tk.Frame(self, width=1200, height=700)
 
         self.scale = tk.DoubleVar(value=1.0)
 
         self.ed_selector = EdSelector(self, library=eds)
         self.ed_selector.pack(pady=5)
-
+        self.eye_selector = EyeSelector(self, library=eyes)
+        self.eye_selector.pack(pady=10)
+        self.mouth_selector = MouthSelector(self, library=mouths)
+        self.mouth_selector.pack(pady=10)
+        self.accessories_selector = AccessoriesSelector(self,
+                                                        library=accessories)
+        self.accessories_selector.pack(pady=10)
         self.menu_button = tk.Menubutton(self, text="Choose A Card Template", relief="raised")
         self.menu_button.pack()
 
@@ -152,30 +157,13 @@ class AttributesFrame(tk.Frame):
         self.menu_button.config(menu=self.menu)
 
         # Add each CardTemplate's image + name to the menu
-        for template in self.cardtemplate.library:
-            self.menu.add_command(
-                label=template.name,
-                image=template.tk_image,  # <-- use image from the class
-                compound="left",
-                command=lambda t=template: self.controller.select_template(t)
-            )
 
-    def set_preview(self, template):
-        """Update the label to show the selected card template."""
-        self.preview.config(image=template.tk_image)
 
         tk.Button(self,
                   text="Add Ed",
                   command=lambda: self.add_base_ed(self.ed_selector.index)
                   ).pack(pady=10)
 
-        self.eye_selector = EyeSelector(self, library=eyes)
-        self.eye_selector.pack(pady=10)
-        self.mouth_selector = MouthSelector(self, library=mouths)
-        self.mouth_selector.pack(pady=10)
-        self.accessories_selector = AccessoriesSelector(self,
-                                                        library=accessories)
-        self.accessories_selector.pack(pady=10)
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
             pady=10

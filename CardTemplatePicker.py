@@ -5,7 +5,7 @@ import os
 
 class CardTemplatePicker:
     def __init__(self, parent, image_paths):
-        self.top = Toplevel(parent)
+        self.top = Toplevel()
         self.top.title("Select a template")
         self.selected_path = None
         self.selected_image = None
@@ -34,7 +34,7 @@ class CardTemplatePicker:
                 print(f"Error loading {path}: {e}")
 
         self.top.grab_set()
-        parent.wait_window(self.top)
+        self.top.wait_window()
 
     def on_select(self, name, path):
         self.selected_image = name

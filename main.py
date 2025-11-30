@@ -22,16 +22,20 @@ class App(tk.Tk):
 
         self.controller = Controller(self)
 
+
         self.preview = PreviewFrame(self, self.controller, self.controller.card)
-        template = choose_image()
-        self.attributes = AttributesFrame(self, self.controller, self.controller.card, template)
+
         self.photobook = PhotobookFrame(self, self.controller, self.controller.card)
 
-        self.attributes.pack(side="left", fill="y")
+        self.attributes = AttributesFrame(self, self.controller, self.controller.card)
+        self.attributes.pack(side="left",fill="y")
         self.preview.pack(side="left", fill="both", expand=True)
         self.photobook.pack(side="right", fill="y")
 
         self.create_menu()
+
+
+
 
     def create_menu(self):
         menubar = tk.Menu(self)
