@@ -2,15 +2,17 @@ import tkinter as tk
 from tkinter import Tk, PhotoImage
 from tkinter import filedialog
 from PIL import Image, ImageTk
+
+import overlay_images
 from overlay_images import *
 from views.preview_frame import PreviewFrame
-from models.model import Card, EdSheeran, Eyes, Lips, Accessory, CardTemplate
+from models.model import Card, EdSheeran, Eyes, Lips, Accessory
 from controllers.controller import Controller
 from tkinter import Menubutton
 from coordinates import *
 
 class Selector(tk.Frame):
-    # TO MAKE THE CLASSES CLEANER BY REFACTORING THE CODE
+    # TODO: MAKE THE CLASSES CLEANER BY REFACTORING THE CODE
     def update_image(self):
         key = self.keys[self.index]
         tk_img = self.library[key][2]
@@ -41,6 +43,7 @@ class EdSelector(Selector):
             self.pil_img = Image.open(path).resize((100, 80))
             self.library[k] = [self.path, self.pil_img, ImageTk.PhotoImage(self.pil_img)]
 
+
         self.btn_prev = tk.Button(self, text="◀", command=self.prev)
         self.btn_prev.grid(row=1, column=0, padx=5)
 
@@ -53,7 +56,6 @@ class EdSelector(Selector):
         self.btn_next.grid(row=1, column=2, padx=5)
 
         self.update_image()
-
 
 class EyeSelector(Selector):
     def __init__(self, parent, library):
@@ -129,6 +131,43 @@ class AccessoriesSelector(Selector):
 
         self.update_image()
 
+class TemplateSelector:
+    def __init__(self, image_paths):
+        self.top = tk.Toplevel()
+        self.top.title("Select a template")
+        self.selected_path = None
+        self.selected_image = None
+        self.tk_images = []
+
+        row = 0
+        col = 0
+        max_cols = 3
+
+        for path in image_paths:
+            try:
+                image = Image.open(image_paths[path])
+                resized_image = image.resize((450, 350))
+                img = ImageTk.PhotoImage(resized_image)
+                self.tk_images.append(img)
+
+                btn = tk.Button(self.top, image=img,
+                                command=lambda p=path: self.on_select(p, image_paths[p]))
+                btn.grid(row=row, column=col, padx=10, pady=10)
+
+                col += 1
+                if col >= max_cols:
+                    col = 0
+                    row += 1
+            except Exception as e:
+                print(f"Error loading {path}: {e}")
+
+        self.top.grab_set()
+        self.top.wait_window()
+
+    def on_select(self, name, path):
+        self.selected_image = name
+        self.selected_path = path
+        self.top.destroy()
 
 class AttributesFrame(tk.Frame):
     # the left screen of the app
@@ -141,12 +180,11 @@ class AttributesFrame(tk.Frame):
 
         self.scale = tk.DoubleVar(value=1.0)
 
+        self.template_selector = tk.Button(self, text="Select a template", command=self.add_template)
+        self.template_selector.pack(pady=10)
+
         self.ed_selector = EdSelector(self, library=eds)
         self.ed_selector.pack(pady=10)
-        tk.Button(self,
-                  text="Add Ed",
-                  command=lambda: self.add_base_ed(self.ed_selector.index)
-                  ).pack(pady=10)
 
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
@@ -155,6 +193,7 @@ class AttributesFrame(tk.Frame):
         self.accessories_selector = AccessoriesSelector(self,
                                                         library=accessories)
         self.accessories_selector.pack(pady=10)
+
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
             pady=10
@@ -168,6 +207,15 @@ class AttributesFrame(tk.Frame):
             return
         card.overlays[-1].scale = self.scale.get()
         self.parent.preview.preview_card(card)
+
+    def add_template(self):
+        templates = overlay_images.cards
+
+        picker = TemplateSelector(templates)
+
+        self.controller.card.base = picker.selected_image
+        self.controller.card = picker.selected_image
+
 
     def add_base_ed(self, index):
         card = self.card

@@ -1,14 +1,13 @@
 import json
 import os
 from tkinter import filedialog, messagebox
-from models.model import Card, CardTemplate
+from models.model import Card
 
 class Controller:
     # handles updates & interactions between components
     def __init__(self, app):
         self.app = app
         self.card = Card()
-
 
     def update_preview(self):
         self.app.preview.preview_card(self.card)
@@ -39,4 +38,3 @@ class Controller:
             self.app.photobook_frame.update_list()
         except Exception as e:
             messagebox.showerror("Error", f"Could not save card: {e}")
-

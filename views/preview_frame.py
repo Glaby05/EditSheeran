@@ -4,21 +4,21 @@ from PIL import Image, ImageTk
 from models.model import Card
 from controllers.controller import Controller
 
-
 # note:
 # - Frame -> the container (like layout management),
 # - Canvas -> to draw shapes & images
 class PreviewFrame(tk.Frame):
     # The center screen of the application
     def __init__(self, parent, controller: Controller, card: Card):
-        super().__init__(parent, height=600, bg="white")
+        super().__init__(parent, bg="lightgrey")
         self.parent = parent
         self.controller = controller
 
-        self.canvas = tk.Canvas(self, bg="lightgray")
-        self.canvas.pack(fill="both", expand=True)
+        self.canvas = tk.Canvas(self, width=750, height=650, bg="white")
+        self.canvas.pack(anchor="center")
 
         self.card = card
+        self.card.base = "assets/floral_card.jpg"
 
         self._image_cache = []
 
@@ -34,7 +34,7 @@ class PreviewFrame(tk.Frame):
         # w, h = base.size
         # base = base.resize(int(w * card.scale), int(h * card.scale))
         tk_base = ImageTk.PhotoImage(base)
-        self.canvas.create_image(0, 0, anchor="s", image=tk_base)
+        self.canvas.create_image(120, 120, anchor="se", image=tk_base)
         self._image_cache.append(tk_base)
 
         ed = card.ed

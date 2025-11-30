@@ -7,14 +7,13 @@ from models.model import Card
 from views.attribute_frame import AttributesFrame
 from views.photobook_frame import PhotobookFrame
 from views.preview_frame import PreviewFrame
-from views.welcome_frame import choose_image
 from controllers.controller import Controller
 
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("1200x600")
+        self.geometry("1200x900")
         self.title("EditSheeran")
         base_dir = os.path.dirname(os.path.abspath(__file__))
         icon_path = os.path.join(base_dir, 'assets', 'ed.ico')
