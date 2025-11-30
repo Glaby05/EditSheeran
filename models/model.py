@@ -11,7 +11,6 @@ class Card:
     def __init__(self, base_image_path= "assets/base card.jpg", scale=1.0):
         # self.type = None
         self.base = base_image_path
-        self.cardtemplate = CardTemplate
         self.ed = EdSheeran("ed_normal.png", 300, 400)
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
@@ -52,11 +51,11 @@ class EdSheeran:
         self.y = y
         self.scale = scale
 
-class CardTemplate:
-    def __init__(self, img_path):
-        self.library = cards
-        pil_img = Image.open(img_path).resize((300, 300))
-        self.tk_image = ImageTk.PhotoImage(pil_img)
+# class CardTemplate:
+#     def __init__(self, img_path):
+#         self.library = cards
+#         pil_img = Image.open(img_path).resize((300, 300))
+#         self.tk_image = ImageTk.PhotoImage(pil_img)
 
 class Overlay:
     def __init__(self, img_path, x=0, y=0, scale=2.0):

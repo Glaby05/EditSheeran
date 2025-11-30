@@ -10,14 +10,15 @@ from controllers.controller import Controller
 class PreviewFrame(tk.Frame):
     # The center screen of the application
     def __init__(self, parent, controller: Controller, card: Card):
-        super().__init__(parent, height=600, bg="lightgrey")
+        super().__init__(parent, bg="lightgrey")
         self.parent = parent
         self.controller = controller
 
-        self.canvas = tk.Canvas(self, width=550, height=672, bg="white")
-        self.canvas.pack()
+        self.canvas = tk.Canvas(self, width=750, height=650, bg="white")
+        self.canvas.pack(anchor="center")
 
         self.card = card
+        self.card.base = "assets/floral_card.jpg"
 
         self._image_cache = []
 
