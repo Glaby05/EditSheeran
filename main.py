@@ -27,7 +27,7 @@ class App(tk.Tk):
 
         self.photobook = PhotobookFrame(self, self.controller, self.controller.card)
 
-        self.attributes = AttributesFrame(self, self.controller, self.controller.card)
+        self.attributes = AttributesFrame(self, self.controller,self.controller.card)
         self.attributes.pack(side="left",fill="y")
         self.preview.pack(side="left", fill="both", expand=True)
         self.photobook.pack(side="right", fill="y")

@@ -46,7 +46,7 @@ class Card:
         return c
 
 class EdSheeran:
-    def __init__(self, img="ed.ico", x=50, y=90, scale=0.75):
+    def __init__(self, img="ed.ico", x=190, y=600, scale=0.75):
         self.image = os.path.join(BASE_DIR, "assets", img)
         self.x = x
         self.y = y

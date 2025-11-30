@@ -141,7 +141,11 @@ class AttributesFrame(tk.Frame):
         self.scale = tk.DoubleVar(value=1.0)
 
         self.ed_selector = EdSelector(self, library=eds)
-        self.ed_selector.pack(pady=5)
+        self.ed_selector.pack(pady=10)
+        tk.Button(self,
+                  text="Add Ed",
+                  command=lambda: self.add_base_ed(self.ed_selector.index)
+                  ).pack(pady=10)
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
         self.mouth_selector = MouthSelector(self, library=mouths)
@@ -149,20 +153,11 @@ class AttributesFrame(tk.Frame):
         self.accessories_selector = AccessoriesSelector(self,
                                                         library=accessories)
         self.accessories_selector.pack(pady=10)
-        self.menu_button = tk.Menubutton(self, text="Choose A Card Template", relief="raised")
-        self.menu_button.pack()
-
-        #internal drop-down menu
-        self.menu = tk.Menu(self.menu_button, tearoff=0)
-        self.menu_button.config(menu=self.menu)
-
-        # Add each CardTemplate's image + name to the menu
 
 
-        tk.Button(self,
-                  text="Add Ed",
-                  command=lambda: self.add_base_ed(self.ed_selector.index)
-                  ).pack(pady=10)
+
+
+
 
 
         tk.Button(self, text="Add Overlay", command=self.add_overlay).pack(
@@ -182,7 +177,7 @@ class AttributesFrame(tk.Frame):
         path = self.ed_selector.library[key][0]
         # tk_img = self.ed_selector.library[key][2]
 
-        card.ed = EdSheeran(path)
+        card.ed = EdSheeran(path, x=190, y=600)
 
         self.controller.update_preview()
 
