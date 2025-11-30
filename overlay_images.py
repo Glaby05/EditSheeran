@@ -5,11 +5,10 @@ BASE_DIR = os.path.dirname(__file__)
 
 cards = {
     "christmas card": os.path.join(BASE_DIR, "assets", "christmas card.jpg"),
-    "blank card": os.path.join(BASE_DIR, "assets", "blank_card.jpg"),
-    "floral card": os.path.join(BASE_DIR, "assets", "floral card.jpg"),
+    "base card": os.path.join(BASE_DIR, "assets", "base card.jpg"),
+    "floral card": os.path.join(BASE_DIR, "assets", "floral_card.jpg"),
     "halloween card": os.path.join(BASE_DIR, "assets", "halloween card.jpg"),
     "st patties card": os.path.join(BASE_DIR, "assets", "st patties card.jpg")
-
 }
 eds = {
     "normal ed": os.path.join(BASE_DIR, "assets", "ed_normal.png"),
@@ -38,10 +37,6 @@ eds = {
     "ed normal": os.path.join(BASE_DIR, "assets", "ed_normal.png"),
     "ed monkey": os.path.join(BASE_DIR, "assets", "ed_monkey.png"),
     "ed speaking": os.path.join(BASE_DIR, "assets", "ed_speaking.png")
-}
-
-cards = {
-
 }
 
 

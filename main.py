@@ -7,6 +7,7 @@ from models.model import Card
 from views.attribute_frame import AttributesFrame
 from views.photobook_frame import PhotobookFrame
 from views.preview_frame import PreviewFrame
+from views.welcome_frame import choose_image
 from controllers.controller import Controller
 
 
@@ -22,7 +23,8 @@ class App(tk.Tk):
         self.controller = Controller(self)
 
         self.preview = PreviewFrame(self, self.controller, self.controller.card)
-        self.attributes = AttributesFrame(self, self.controller, self.controller.card)
+        template = choose_image()
+        self.attributes = AttributesFrame(self, self.controller, self.controller.card, template)
         self.photobook = PhotobookFrame(self, self.controller, self.controller.card)
 
         self.attributes.pack(side="left", fill="y")

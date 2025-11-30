@@ -7,10 +7,8 @@ class State:
     def __init__(self):
         pass
 
-
-
 class Card:
-    def __init__(self, base_image_path= "assets/blank card.jpg", scale=1.0):
+    def __init__(self, base_image_path= "assets/blank_card.jpg", scale=1.0):
         # self.type = None
         self.base = base_image_path
         self.cardtemplate = CardTemplate
@@ -47,8 +45,6 @@ class Card:
             )
         return c
 
-
-
 class EdSheeran:
     def __init__(self, img="ed.ico", x=50, y=90, scale=0.75):
         self.image = os.path.join(BASE_DIR, "assets", img)
@@ -62,15 +58,12 @@ class CardTemplate:
         pil_img = Image.open(img_path).resize((300, 300))
         self.tk_image = ImageTk.PhotoImage(pil_img)
 
-
 class Overlay:
     def __init__(self, img_path, x=0, y=0, scale=2.0):
         self.img_path = os.path.join(BASE_DIR, "assets", img_path)
         self.x = x
         self.y = y
         self.scale = scale
-
-
 
 class Eyes(Overlay):
     def __init__(self, img_path, x=0, y=0, scale=1.0):
