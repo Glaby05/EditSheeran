@@ -1,8 +1,8 @@
 ED_COORDS = {
     "ed_normal.png": {
-        "eyes":  (120, 378),
-        "mouth": (120, 430),
-        "accessory": (50, 190)
+        "eyes":  (137, 440),
+        "mouth": (145, 500),
+        "accessory": (80, 280)
     },
 
     "ed_monkey.png": {

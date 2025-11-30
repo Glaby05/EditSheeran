@@ -29,7 +29,7 @@ mouths = {
 accessories = {
     "cowboy hat": os.path.join(BASE_DIR, "assets", "cowboy_hat.png"),
     "witch hat": os.path.join(BASE_DIR, "assets", "witch_hat.png"),
-    "santa hat": os.path.join(BASE_DIR, "assets", "santa_hat.png"),
+
     "leprechaun hat": os.path.join(BASE_DIR, "assets", "leprechaun_hat.png"),
 }
 

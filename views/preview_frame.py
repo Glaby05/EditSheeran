@@ -49,12 +49,9 @@ class PreviewFrame(tk.Frame):
 
         for ov in card.overlays:
             try:
-                img = Image.open(ov.img_path)
-                w, h = img.size
-                img = img.resize((int(w * ov.scale), int(h * ov.scale)))
-
-                tk_img = ImageTk.PhotoImage(img)
+                tk_img = ov.get_tk_image()
                 self.canvas.create_image(ov.x, ov.y, anchor="nw", image=tk_img)
                 self._image_cache.append(tk_img)
+
             except:
                 pass
