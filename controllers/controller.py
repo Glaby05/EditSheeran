@@ -40,5 +40,3 @@ class Controller:
         except Exception as e:
             messagebox.showerror("Error", f"Could not save card: {e}")
 
-    def select_template(self, template: CardTemplate):
-        self.view.display_template(template)

@@ -39,7 +39,7 @@ class PreviewFrame(tk.Frame):
 
         ed = card.ed
 
-        ed_img = Image.open(ed.image)
+        ed_img = Image.open(ed.img_path)
         w, h = ed_img.size
         ed_img = ed_img.resize((int(w * card.ed.scale), int(h * card.ed.scale)))
         tk_ed = ImageTk.PhotoImage(ed_img)

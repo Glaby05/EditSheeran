@@ -7,6 +7,7 @@ from views.preview_frame import PreviewFrame
 from models.model import Card, EdSheeran, Eyes, Lips, Accessory, CardTemplate
 from controllers.controller import Controller
 from tkinter import Menubutton
+from coordinates import *
 
 class Selector(tk.Frame):
     # TO MAKE THE CLASSES CLEANER BY REFACTORING THE CODE
@@ -184,19 +185,29 @@ class AttributesFrame(tk.Frame):
     def add_overlay(self):
         card = self.card
 
+
+        # extract file name (ed1.png, ed2.png, etc.)
+        ed_filename = os.path.basename(card.ed.img_path)
+
+        # get coordinate map for this ED
+        coords = ED_COORDS.get(ed_filename)
+
         key = self.eye_selector.keys[self.eye_selector.index]
         path = self.eye_selector.library[key][0]
-        eyes_ov = Eyes(path, x=190, y=190, scale=0.2)
+        x, y = coords["eyes"]
+        eyes_ov = Eyes(path, x=x, y=y, scale=0.2)
         card.overlays.append(eyes_ov)
 
         key = self.mouth_selector.keys[self.mouth_selector.index]
         path = self.mouth_selector.library[key][0]
-        lips_ov = Lips(path, x=140, y=220, scale=0.4)
+        x,y = coords["mouth"]
+        lips_ov = Lips(path, x=x, y=y, scale=0.4)
         card.overlays.append(lips_ov)
 
         key = self.accessories_selector.keys[self.accessories_selector.index]
         path = self.accessories_selector.library[key][0]
-        acc_ov = Accessory(path, x=110, y=0, scale=1.2)
+        x,y = coords["accessory"]
+        acc_ov = Accessory(path, x=x, y=y, scale=1.2)
         card.overlays.append(acc_ov)
 
         self.controller.update_preview()
