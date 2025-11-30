@@ -11,7 +11,7 @@ class Card:
     def __init__(self, base_image_path= "assets/base card.jpg", scale=1.0):
         # self.type = None
         self.base = base_image_path
-        self.ed = EdSheeran("ed_normal.png", 300, 400)
+        self.ed = EdSheeran("ed_normal.png")
         self.overlays = []  # list of Overlay objects, can class State object
         self.name = "Untitled Ed"
         self.facts = ""
@@ -45,7 +45,7 @@ class Card:
         return c
 
 class EdSheeran:
-    def __init__(self,img_path, x=190, y=600, scale=0.75):
+    def __init__(self,img_path, x=190, y=660, scale=0.75):
         self.img_path = os.path.join(BASE_DIR, "assets", img_path)
         self.x = x
         self.y = y

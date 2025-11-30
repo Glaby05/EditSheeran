@@ -185,6 +185,7 @@ class AttributesFrame(tk.Frame):
 
         self.ed_selector = EdSelector(self, library=eds)
         self.ed_selector.pack(pady=10)
+        tk.Button(self, text="Add Ed", command=self.add_base_ed).pack(pady=5)
 
         self.eye_selector = EyeSelector(self, library=eyes)
         self.eye_selector.pack(pady=10)
@@ -217,13 +218,13 @@ class AttributesFrame(tk.Frame):
         self.controller.card = picker.selected_image
 
 
-    def add_base_ed(self, index):
+    def add_base_ed(self):
         card = self.card
-        key = self.ed_selector.keys[index]
+        key = self.ed_selector.keys[self.ed_selector.index]
         path = self.ed_selector.library[key][0]
         # tk_img = self.ed_selector.library[key][2]
 
-        card.ed = EdSheeran(path, x=190, y=600)
+        card.ed = EdSheeran(path, x=190, y=670)
 
         self.controller.update_preview()
 
@@ -231,7 +232,7 @@ class AttributesFrame(tk.Frame):
         card = self.card
 
 
-        # extract file name (ed1.png, ed2.png, etc.)
+        # extract file name
         ed_filename = os.path.basename(card.ed.img_path)
 
         # get coordinate map for this ED
