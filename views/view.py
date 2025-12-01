@@ -54,7 +54,7 @@ class View(tk.Tk):
                                          drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_hat.pack(pady=3)
 
-    def update_canvas(self, card_state):
+    def update_canvas(self, card_state, selected_index):
         # I'm leaving print statements for debugging
         self.canvas.delete("all")
         self.current_images = []
