@@ -44,6 +44,11 @@ class EditSheeranController:
 
             self.refresh_preview()
 
+    def move_current_item(self, new_x, new_y):
+        if self.selected_index != -1:
+            self.current_card.update_overlay_coor(self.selected_index, int(new_x), int(new_y))
+            self.refresh_preview()
+
     def run(self):
         self.view.mainloop()
 
