@@ -101,7 +101,7 @@ class View(tk.Tk):
                     self.canvas.tag_bind(f"item_{i}", "<Button-1>", lambda event, idx=i: self.controller.select_item(idx))
                     if i == selected_index:
                         # HANDLE ATTRIBUTE (ITEM) EVENTS
-                        self.delete_handler(item)
+                        self.delete_handler(i, item)
                         self.move_handler(item)
                         self.resize_handler(item)
 
@@ -248,7 +248,7 @@ class View(tk.Tk):
         self.canvas.delete(self.temp_rect)
         self.controller.move_current_item(self.current_x, self.current_y)
 
-    def delete_handler(self, item):
+    def delete_handler(self, i, item):
         self.highlight_selected(item)
         x, y = item["x"], item["y"]  # item & circ center
         w, h = item["width"], item["height"]
@@ -271,26 +271,27 @@ class View(tk.Tk):
                                                    fill="black", width=2, tags="up_handle")
 
         self.canvas.tag_bind("handle_x", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("handle_x", "<ButtonRelease-1>", self.on_del_end(item))
+        self.canvas.tag_bind("handle_x", "<ButtonRelease-1>", self.on_del_end(i))
 
         self.canvas.tag_bind("down_handle", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("down_handle", "<ButtonRelease-1>", self.on_del_end(item))
+        self.canvas.tag_bind("down_handle", "<ButtonRelease-1>", self.on_del_end(i))
 
         self.canvas.tag_bind("up_handle", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("up_handle", "<ButtonRelease-1>", self.on_del_end(item))
+        self.canvas.tag_bind("up_handle", "<ButtonRelease-1>", self.on_del_end(i))
 
     def on_del_start(self, event):
         item = self.controller.get_selected_overlay()
         self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="black", width=2, dash=(2,2))
 
-    def on_del_end(self, item):
-        path = item["image"]
-        x = item.get("x", 200)
-        y = item.get("y", 250)
-        w = item.get("width",250)
-        h = item.get("height", 250)
+    def on_del_end(self, i):
+        # path = item["image"]
+        # x = item.get("x", 200)
+        # y = item.get("y", 250)
+        # w = item.get("width",250)
+        # h = item.get("height", 250)
         self.canvas.delete(self.temp_rect)
-        self.controller.del_current_item(path, x, y, w, h)
+        # self.controller.del_current_item(path, x, y, w, h)
+        self.controller.del_current_item(i)
 
     def setup_text_input(self):
         text_frame = tk.LabelFrame(self.attributes_frame, text="Add Custom Text")

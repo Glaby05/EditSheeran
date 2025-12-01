@@ -20,11 +20,13 @@ class Card:
             "height": 100
         })
 
-    def remove_overlay(self, path, x, y, w, h):
-        for overlay in self.overlays:
-            if overlay["image"] == path and overlay["x"] == x and \
-                    overlay["y"] == y and overlay["w"] == w and overlay["h"] == h:
-                self.overlays.pop(overlay)
+    def remove_overlay(self, i):
+        for idx, item in enumerate(self.overlays):
+            # if overlay["image"] == path and overlay["x"] == x and \
+            #         overlay["y"] == y and overlay["w"] == w and overlay["h"] == h:
+            #     self.overlays.pop(overlay)
+            if idx == i:
+                self.overlays.pop(i)
 
     def update_overlay_size(self, index, size):
         if 0 <= index < len(self.overlays):

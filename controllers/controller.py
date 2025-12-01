@@ -49,9 +49,10 @@ class EditSheeranController:
             self.current_card.update_overlay_coor(self.selected_index, int(new_x), int(new_y))
             self.refresh_preview()
 
-    def del_current_item(self, path, x, y, w, h):
+    def del_current_item(self, i):
         if self.selected_index != -1:
-            self.current_card.remove_overlay(path, x, y, w, h)
+            self.current_card.remove_overlay(i)
+            self.refresh_preview()
 
     def run(self):
         self.view.mainloop()
