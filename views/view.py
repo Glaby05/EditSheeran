@@ -14,6 +14,10 @@ class View(tk.Tk):
         self.title("EditSheeran")
         self.geometry("1680x1050")
 
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        icon_path = os.path.join(base_dir, 'assets', 'ed.ico')
+        self.iconbitmap(icon_path)
+
         self.create_layout()
 
     def create_layout(self):
@@ -54,7 +58,7 @@ class View(tk.Tk):
                                          drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_hat.pack(pady=3)
 
-    def update_canvas(self, card_state, selected_index):
+    def update_canvas(self, card_state, selected_index=None):
         # I'm leaving print statements for debugging
         self.canvas.delete("all")
         self.current_images = []
@@ -75,13 +79,13 @@ class View(tk.Tk):
 
         overlays = card_state.get("overlays", [])
 
-        for item in overlays:
+        for i, item in enumerate(overlays):
             try:
                 path = item["image"]
-                x = item.get("x", 100)
-                y = item.get("y", 150)
-                w = item.get("width",100)
-                h = item.get("height", 100)
+                x = item.get("x", 200)
+                y = item.get("y", 250)
+                w = item.get("width",250)
+                h = item.get("height", 250)
 
                 if os.path.exists(path):
                     pil_overlay = Image.open(path)
@@ -89,12 +93,159 @@ class View(tk.Tk):
                     pil_overlay = pil_overlay.resize((w,h))
                     tk_overlay = ImageTk.PhotoImage(pil_overlay)
 
-                    self.canvas.create_image(x,y, image=tk_overlay, anchor="center", tags="draggable")
+                    tags = ("draggable", f"item_{i}")
+
+                    self.canvas.create_image(x,y, image=tk_overlay, anchor="center", tags=tags)
                     self.current_images.append(tk_overlay)
+
+                    self.canvas.tag_bind(f"item_{i}", "<Button-1>", lambda event, idx=i: self.controller.select_item(idx))
+                    if i == selected_index:
+                        # HANDLE ATTRIBUTE (ITEM) EVENTS
+                        self.move_handler(item)
+                        self.resize_handler(item)
+
                 else:
                     print(f"Overlay not found: {path}")
             except Exception as e:
                 print(f"Error loading overlay {item}: {e}")
+
+
+    def highlight_selected(self, item):
+        x, y = item["x"], item["y"]
+        w, h = item["width"], item["height"]
+
+        left = x - (w // 2)
+        top = y - (h // 2)
+        right = x + (w // 2)
+        bottom = y + (h // 2)
+
+        self.canvas.create_rectangle(left, top, right, bottom, outline="blue", dash=(5,5), width=2)
+
+    def resize_handler(self, item):
+        self.highlight_selected(item)
+        x, y = item["x"], item["y"]
+        w, h = item["width"], item["height"]
+
+        right = x + (w // 2)
+        bottom = y + (h // 2)
+
+        handle_size = 10
+        self.handle = self.canvas.create_rectangle(
+            right - handle_size, bottom - handle_size,
+            right + handle_size, bottom + handle_size,
+            fill="blue", outline="white", tags="handle_resize"
+        )
+
+        self.canvas.tag_bind("handle_resize", "<ButtonPress-1>", self.on_resize_start)
+        self.canvas.tag_bind("handle_resize", "<B1-Motion>", self.on_resize_drag)
+        self.canvas.tag_bind("handle_resize", "<ButtonRelease-1>", self.on_resize_end)
+
+    def on_resize_start(self, event):
+        self.resize_start_x = event.x
+        self.resize_start_y = event.y
+
+        item = self.controller.get_selected_overlay()
+        self.initial_size = item["width"]
+
+        self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="red", width=2, dash=(2,2))
+
+    def on_resize_drag(self, event):
+        item = self.controller.get_selected_overlay()
+        center_x, center_y = item["x"], item["y"]
+        horiz_dist = abs(event.x - center_x)
+
+        new_size = horiz_dist * 2
+        if new_size < 20:
+            new_size = 20
+
+        self.current_resize_value = new_size
+
+        left = center_x - horiz_dist
+        top = center_y - horiz_dist
+        right = center_x + horiz_dist
+        bottom = center_y + horiz_dist
+
+        self.canvas.coords(self.temp_rect, left, top, right, bottom)
+
+    def on_resize_end(self, event):
+        self.canvas.delete(self.temp_rect)
+        self.controller.resize_current_item(self.current_resize_value)
+
+    def move_handler(self, item):
+        self.highlight_selected(item)
+        x, y = item["x"], item["y"]  # item & circ center
+        # w, h = item["width"], item["height"]
+
+        # diam = 20
+        r = 10
+
+        x1, y1 = x-r, y-r  # top left circ coor
+        x2, y2 = x+r, y+r  # bottom right circ coor
+
+        self.move_handle = self.canvas.create_oval(x1,y1,x2,y2,
+                                                   fill="white", outline="green",
+                                                   tags="handle_move")
+
+        # Draw the horizontal line of the plus sign
+        self.hor_handle = self.canvas.create_line(x-6,y , x+6,y,
+                                                  fill="black", width=2, tags="hor_handle")
+        # Draw the vertical line of the plus sign
+        self.vert_handle = self.canvas.create_line(x,y-6 , x,y+6,
+                                                   fill="black", width=2, tags="vert_handle")
+
+        self.canvas.tag_bind("handle_move", "<ButtonPress-1>", self.on_move_start)
+        self.canvas.tag_bind("handle_move", "<B1-Motion>", self.on_move_drag)
+        self.canvas.tag_bind("handle_move", "<ButtonRelease-1>", self.on_move_end)
+
+        self.canvas.tag_bind("hor_handle", "<ButtonPress-1>", self.on_move_start)
+        self.canvas.tag_bind("hor_handle", "<B1-Motion>", self.on_move_drag)
+        self.canvas.tag_bind("hor_handle", "<ButtonRelease-1>", self.on_move_end)
+
+        self.canvas.tag_bind("vert_handle", "<ButtonPress-1>", self.on_move_start)
+        self.canvas.tag_bind("vert_handle", "<B1-Motion>", self.on_move_drag)
+        self.canvas.tag_bind("vert_handle", "<ButtonRelease-1>", self.on_move_end)
+
+    def on_move_start(self, event):
+        # self.move_start_x = event.x
+        # self.move_start_y = event.y
+
+        item = self.controller.get_selected_overlay()
+        self.initial_x = item["x"]
+        self.initial_y = item["y"]
+
+        self.mouse_dist_x = event.x - self.initial_x
+        self.mouse_dist_y = event.y - self.initial_y
+
+        self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="green", width=2, dash=(2,2))
+
+    def on_move_drag(self, event):
+        item = self.controller.get_selected_overlay()
+        # mouse_dist_x = self.move_start_x - self.initial_x
+        # mouse_dist_y = self.move_start_y - self.initial_y
+
+        w, h = item["width"], item["height"]
+
+        mouse_x_pos = event.x
+        mouse_y_pos = event.y
+
+        self.current_x = mouse_x_pos - self.mouse_dist_x
+        self.current_y = mouse_y_pos - self.mouse_dist_y
+
+        left = self.current_x - (w // 2)
+        top = self.current_y - (h // 2)
+        right = self.current_x + (w // 2)
+        bottom = self.current_y + (h // 2)
+
+        x1, y1 = self.current_x-5, self.current_y-5  # top left circ coor
+        x2, y2 = self.current_x+5, self.current_y+5  # bottom right circ coor
+
+        self.canvas.coords(self.temp_rect, left, top, right, bottom)
+        self.canvas.coords(self.handle, x1,y1,x2,y2)
+        # self.controller.move_current_item(self.current_x, self.current_y)
+
+    def on_move_end(self, event):
+        self.canvas.delete(self.temp_rect)
+        self.controller.move_current_item(self.current_x, self.current_y)
 
     def setup_text_input(self):
         text_frame = tk.LabelFrame(self.attributes_frame, text="Add Custom Text")

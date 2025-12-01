@@ -24,6 +24,11 @@ class Card:
             self.overlays[index]["width"] = size
             self.overlays[index]["height"] = size
 
+    def update_overlay_coor(self, index, x, y):
+        if 0 <= index < len(self.overlays):
+            self.overlays[index]["x"] = x
+            self.overlays[index]["y"] = y
+
     def get_state(self):
         return {
             "base": self.base,
