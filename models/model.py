@@ -1,6 +1,7 @@
 import json
 import os
 
+
 class Card:
     def __init__(self, name="Untitled Ed", base="assets/blank_card.jpg"):
         self.name = name
@@ -19,6 +20,12 @@ class Card:
             "height": 100
         })
 
+    def remove_overlay(self, path, x, y, w, h):
+        for overlay in self.overlays:
+            if overlay["image"] == path and overlay["x"] == x and \
+                    overlay["y"] == y and overlay["w"] == w and overlay["h"] == h:
+                self.overlays.pop(overlay)
+
     def update_overlay_size(self, index, size):
         if 0 <= index < len(self.overlays):
             self.overlays[index]["width"] = size
@@ -34,6 +41,7 @@ class Card:
             "base": self.base,
             "overlays": self.overlays
         }
+
 
 class Photobook:
     def __init__(self):
