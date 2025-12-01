@@ -7,13 +7,19 @@ class EditSheeranController:
 
         self.current_card = Card()
 
+        self.selected_index = -1
+
         self.view = View(self)
 
         self.refresh_preview()
 
+    def select_item(self, index):
+        self.selected_index = index
+        self.refresh_preview()
+
     def refresh_preview(self):
         data = self.current_card.get_state()
-        self.view.update_canvas(data)
+        self.view.update_canvas(data, self.selected_index)
 
     def change_template(self, path):
         self.current_card.set_base(path)
@@ -21,11 +27,22 @@ class EditSheeranController:
 
     def add_accessory(self, path, x=None, y=None):
         if x is None:
-            x = 200
+            x = 300
         if y is None:
-            y=250
+            y=350
         self.current_card.add_overlay(path, x, y)
         self.refresh_preview()
+
+    def get_selected_overlay(self):
+        if self.selected_index != -1:
+            return self.current_card.overlays[self.selected_index]
+        return None
+
+    def resize_current_item(self, new_size):
+        if self.selected_index != -1:
+            self.current_card.update_overlay_size(self.selected_index, int(new_size))
+
+            self.refresh_preview()
 
     def run(self):
         self.view.mainloop()

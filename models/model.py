@@ -19,6 +19,11 @@ class Card:
             "height": 100
         })
 
+    def update_overlay_size(self, index, size):
+        if 0 <= index < len(self.overlays):
+            self.overlays[index]["width"] = size
+            self.overlays[index]["height"] = size
+
     def get_state(self):
         return {
             "base": self.base,
