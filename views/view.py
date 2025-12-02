@@ -35,6 +35,8 @@ class View(tk.Tk):
         self.photobook_frame.pack(side="left", fill="y", ipadx=100)
         tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
 
+
+
         self.setup_attributes()
         self.setup_text_input()
 
@@ -61,8 +63,31 @@ class View(tk.Tk):
     def update_canvas(self, card_state, selected_index=None):
         # I'm leaving print statements for debugging
         self.canvas.delete("all")
+
+
+
         self.current_images = []
 
+        delete_icon_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "delete_button.png")
+        print("Delete icon path:", delete_icon_path)
+        self.delete_icon = tk.PhotoImage(file=delete_icon_path)
+
+        self.delete_button = tk.Button(
+            self.canvas,
+            image=self.delete_icon,
+            bd=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.controller.del_current_item(self.controller.selected_index)
+        )
+
+        # Add it to the canvas, initially invisible
+        self.delete_button_id = self.canvas.create_window(
+            -1000, -1000,
+            window=self.delete_button,
+            anchor="center",
+
+        )
         base = card_state.get("base")
 
         if base and os.path.exists(base):
@@ -101,7 +126,8 @@ class View(tk.Tk):
                     self.canvas.tag_bind(f"item_{i}", "<Button-1>", lambda event, idx=i: self.controller.select_item(idx))
                     if i == selected_index:
                         # HANDLE ATTRIBUTE (ITEM) EVENTS
-                        self.delete_handler(i, item)
+                        self.highlight_selected(item)
+                        self.delete_handler(item)
                         self.move_handler(item)
                         self.resize_handler(item)
 
@@ -122,8 +148,11 @@ class View(tk.Tk):
 
         self.canvas.create_rectangle(left, top, right, bottom, outline="blue", dash=(5,5), width=2)
 
+
+
+
     def resize_handler(self, item):
-        self.highlight_selected(item)
+
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
 
@@ -148,7 +177,7 @@ class View(tk.Tk):
         item = self.controller.get_selected_overlay()
         self.initial_size = item["width"]
 
-        self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="red", width=2, dash=(2,2))
+
 
     def on_resize_drag(self, event):
         item = self.controller.get_selected_overlay()
@@ -173,7 +202,7 @@ class View(tk.Tk):
         self.controller.resize_current_item(self.current_resize_value)
 
     def move_handler(self, item):
-        self.highlight_selected(item)
+
         x, y = item["x"], item["y"]  # item & circ center
         # w, h = item["width"], item["height"]
 
@@ -248,50 +277,29 @@ class View(tk.Tk):
         self.canvas.delete(self.temp_rect)
         self.controller.move_current_item(self.current_x, self.current_y)
 
-    def delete_handler(self, i, item):
-        self.highlight_selected(item)
-        x, y = item["x"], item["y"]  # item & circ center
+    def delete_handler(self, item):
+
+        if not item:
+            self.canvas.coords(self.delete_button_id, -1000, -1000)
+            return
+
+        self.canvas.itemconfigure(self.delete_button_id, state="normal")
+
+        x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
 
-        # diam = 20
-        # r = 10
+        left = x - (w // 2)
+        top = y - (h // 2)
 
-        x1, y1 = x-(w//2)-20, y-(h//2)  # top left circ coor
-        x2, y2 = x-(w//2), y-(h//2)-20  # bottom right circ coor
+        # Move the button to the top-left corner of the selection box
+        bx = left - 20
+        by = top - 20
 
-        self.del_handle = self.canvas.create_oval(x1,y1,x2,y2,
-                                                   fill="white", outline="black",
-                                                   tags="handle_x")
+        self.canvas.coords(self.delete_button_id, bx, by)
+        self.canvas.lift(self.delete_button_id)
 
-        # Draw the \ line of the x sign
-        self.down_handle = self.canvas.create_line(x1+2,y1+2 , x2-2,y2-2,
-                                                  fill="black", width=2, tags="down_handle")
-        # Draw the / line of the x sign
-        self.up_handle = self.canvas.create_line(x1-2,y1-2 , x2+2,y2+2,
-                                                   fill="black", width=2, tags="up_handle")
+        print("Placing delete button at:", bx, by)
 
-        self.canvas.tag_bind("handle_x", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("handle_x", "<ButtonRelease-1>", self.on_del_end(i))
-
-        self.canvas.tag_bind("down_handle", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("down_handle", "<ButtonRelease-1>", self.on_del_end(i))
-
-        self.canvas.tag_bind("up_handle", "<ButtonPress-1>", self.on_del_start)
-        self.canvas.tag_bind("up_handle", "<ButtonRelease-1>", self.on_del_end(i))
-
-    def on_del_start(self, event):
-        item = self.controller.get_selected_overlay()
-        self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="black", width=2, dash=(2,2))
-
-    def on_del_end(self, i):
-        # path = item["image"]
-        # x = item.get("x", 200)
-        # y = item.get("y", 250)
-        # w = item.get("width",250)
-        # h = item.get("height", 250)
-        self.canvas.delete(self.temp_rect)
-        # self.controller.del_current_item(path, x, y, w, h)
-        self.controller.del_current_item(i)
 
     def setup_text_input(self):
         text_frame = tk.LabelFrame(self.attributes_frame, text="Add Custom Text")

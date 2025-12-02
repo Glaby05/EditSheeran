@@ -1,5 +1,6 @@
 from views.view import View
 from models.model import Card, Photobook
+from tkinter import *
 
 class EditSheeranController:
     def __init__(self):
