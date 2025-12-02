@@ -23,26 +23,34 @@ class View(tk.Tk):
 
     def create_layout(self):
         # ATTRIBUTES FRAME
-        self.attributes_frame = tk.Frame(self, bg="white", width=500)
+        self.attributes_frame = tk.Frame(self, bg="white", width=250)
         tk.Label(self.attributes_frame, text="Attributes").pack(pady=10)
-        self.attributes_frame.pack(side="left", fill="y", ipadx=40)
+        self.attributes_frame.pack(side="left", fill="y", padx=10)
+        self.attributes_frame.pack_propagate(False)
 
         self.attributes_canvas = tk.Canvas(self.attributes_frame,  bg="white", highlightthickness=0)
-        self.attributes_canvas.pack(side="left", fill="both", expand=True)
 
         self.attributescroll = tk.Scrollbar(self.attributes_frame, orient="vertical", command=self.attributes_canvas.yview)
         self.attributescroll.pack(side="right", fill="y")
 
+        self.attributes_canvas.pack(side="left", fill="both", expand=True)
         self.attributes_canvas.configure(yscrollcommand=self.attributescroll.set)
 
         self.attributes_scrollable_frame = tk.Frame(self.attributes_canvas)
-        self.attributes_canvas.create_window((0, 0), window=self.attributes_scrollable_frame, anchor="nw")
+
+        self.attributes_window = self.attributes_canvas.create_window((0, 0), window=self.attributes_scrollable_frame, anchor="nw")
         self.attributes_scrollable_frame.bind(
             "<Configure>",
             lambda e: self.attributes_canvas.configure(
                 scrollregion=self.attributes_canvas.bbox("all")
             )
         )
+
+        # match the scrollable frame width to canvas width
+        def _on_canvas_resize(event):
+            self.attributes_canvas.itemconfig(self.attributes_window, width=event.width)
+
+        self.attributes_canvas.bind("<Configure>", _on_canvas_resize)
 
         # PREVIEW FRAME
         self.preview_frame = tk.Frame(self, bg="lightgray")
