@@ -24,7 +24,7 @@ class View(tk.Tk):
     def create_menu(self):
         menubar = tk.Menu(self)
         file_menu = tk.Menu(menubar, tearoff=0)
-        file_menu.add_command(label="New Card", command=self.controller.refresh_preview)
+        file_menu.add_command(label="New Card", command=self.controller.new_card)
         # file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
         file_menu.add_command(label="Save to Photobook", command=self.controller.save_card)
         file_menu.add_separator()
@@ -75,7 +75,7 @@ class View(tk.Tk):
 
     def update_canvas(self, card_state):
         # I'm leaving print statements for debugging
-        self.canvas.delete("all")
+
         self.current_images = []
 
         base = card_state.get("base")
@@ -135,11 +135,19 @@ class View(tk.Tk):
                 if thumb is None:
                     continue
 
-                # Create thumbnail button
+                # thumbnail button
+                raw_name = data.get("name", None)
+
+                if raw_name:
+                    # if someone accidentally saved a path inside `name`, strip directories and extension
+                    display_name = os.path.splitext(os.path.basename(raw_name))[0]
+                else:
+                    # fallback to the json filename (strip .json)
+                    display_name = os.path.splitext(filename)[0]
                 btn = tk.Button(
                     self.pb_inner,
                     image=thumb,
-                    text=data.get("name", filename),
+                    text= display_name,
                     compound="top",
                     command=lambda p=json_path: self.controller.load_card(p),
                     relief="flat"
@@ -150,15 +158,15 @@ class View(tk.Tk):
                 pass
 
     def create_photobook_area(self):
-        # --- Main photobook frame ---
+        # main photobook frame
         tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
-        tk.Button(self.photobook_frame, text="Open & Edit", command=self.controller.load_card).pack(pady=5)
+        tk.Label(self.photobook_frame, text="Click a saved card to open & edit!").pack(pady=10)
 
-        # --- Canvas + scrollbar container ---
+        # canvas + scrollbar
         scroll_container = tk.Frame(self.photobook_frame, width=100, height=800)
         scroll_container.pack()
 
-        # Canvas (this is what scrolls)
+        #
         self.pb_canvas = tk.Canvas(scroll_container, bg="lavender", width=200, height=750)
         self.pb_canvas.pack(side="left", fill="both", expand=True)
 
@@ -167,16 +175,16 @@ class View(tk.Tk):
         scrollbar.pack(side="right", fill="y")
         self.pb_canvas.configure(yscrollcommand=scrollbar.set)
 
-        # --- Inner frame inside the canvas ---
+        #inner frame inside the canvas ---
         self.pb_inner = tk.Frame(self.pb_canvas, bg="white")
         self.pb_canvas.create_window((0, 0), window=self.pb_inner, anchor="nw")
 
-        # Make scrolling update when widgets are added
+        #  scrolling update when widgets are added
         self.pb_inner.bind("<Configure>", lambda e:
         self.pb_canvas.configure(scrollregion=self.pb_canvas.bbox("all"))
                            )
 
-        # --- FIXED Open Button (does NOT scroll) ---
+
         open_btn = tk.Button(self.photobook_frame, text="Open Photobook", command=self.load_photobook)
         open_btn.pack(pady=10)
 
