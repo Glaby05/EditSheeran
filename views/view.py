@@ -177,7 +177,7 @@ class View(tk.Tk):
         item = self.controller.get_selected_overlay()
         self.initial_size = item["width"]
 
-
+        self.temp_rect = self.canvas.create_rectangle(0,0,0,0, outline="red", width=2, dash=(2,2))
 
     def on_resize_drag(self, event):
         item = self.controller.get_selected_overlay()
