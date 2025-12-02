@@ -62,29 +62,11 @@ class View(tk.Tk):
         # PHOTOBOOK FRAME
         self.photobook_frame = tk.Frame(self, bg="white", width=500)
         self.photobook_frame.pack(side="left", fill="y", ipadx=100)
-        self.photobook_frame.pack_propagate(False)
-
-        self.photobook_canvas = tk.Canvas(self.photobook_frame,  bg="white", highlightthickness=0)
-
-        self.photobookscroll = Scrollbar(self.photobook_frame, orient="vertical")
-        self.photobookscroll.pack(side="right", fill=Y)
-        tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
-
-        self.photobook_canvas.pack(side="left", fill="both", expand=True)
-        self.photobook_canvas.configure(yscrollcommand=self.photobookscroll.set)
-
-        self.photobook_scrollable_frame = tk.Frame(self.photobook_canvas)
-
-        self.photobook_window = self.photobook_canvas.create_window((0, 0), window=self.photobook_scrollable_frame, anchor="nw")
-        self.photobook_scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.photobook_canvas.configure(
-                scrollregion=self.photobook_canvas.bbox("all")
-            )
-        )
+        self.create_photobook_area()
 
         self.setup_attributes()
         self.setup_text_input()
+        self.load_photobook()
 
     def setup_attributes(self):
         selected_template = Selector.Selector(self.attributes_scrollable_frame, "Templates", cards, self.controller.change_template)

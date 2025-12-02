@@ -1,0 +1,34 @@
+{
+    "name": "untitled ed",
+    "base": "C:\\Users\\Laura Gabriela\\Projects\\EditSheeran\\assets\\christmas card.jpg",
+    "overlays": [
+        {
+            "image": "C:\\Users\\Laura Gabriela\\Projects\\EditSheeran\\assets\\ed_normal.png",
+            "x": 200,
+            "y": 250,
+            "width": 100,
+            "height": 100
+        },
+        {
+            "image": "C:\\Users\\Laura Gabriela\\Projects\\EditSheeran\\assets\\HEART_EYES.png",
+            "x": 443,
+            "y": 323,
+            "width": 100,
+            "height": 100
+        },
+        {
+            "image": "C:\\Users\\Laura Gabriela\\Projects\\EditSheeran\\assets\\HEART_EYES.png",
+            "x": 289,
+            "y": 179,
+            "width": 100,
+            "height": 100
+        },
+        {
+            "image": "C:\\Users\\Laura Gabriela\\Projects\\EditSheeran\\assets\\open_mouth.png",
+            "x": 226,
+            "y": 458,
+            "width": 100,
+            "height": 100
+        }
+    ]
+}
