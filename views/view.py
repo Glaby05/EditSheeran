@@ -348,106 +348,106 @@ class View(tk.Tk):
         else:
             self.add_initial_canvas_text()
 
-def load_photobook(self):
-    for widget in self.pb_inner.winfo_children():
-        widget.destroy()
+    def load_photobook(self):
+        for widget in self.pb_inner.winfo_children():
+            widget.destroy()
 
-        # Loop through JSON files
-    for filename in sorted(os.listdir(PHOTBOOK_DIR), reverse=True):
-        if not filename.endswith(".json"):
-            continue
-
-        json_path = os.path.join(PHOTBOOK_DIR, filename)
-
-        try:
-            with open(json_path, "r") as f:
-                data = json.load(f)
-
-            thumb = self._create_thumbnail(data)
-            if thumb is None:
+            # Loop through JSON files
+        for filename in sorted(os.listdir(PHOTBOOK_DIR), reverse=True):
+            if not filename.endswith(".json"):
                 continue
 
-            # thumbnail button
-            raw_name = data.get("name", None)
+            json_path = os.path.join(PHOTBOOK_DIR, filename)
 
-            if raw_name:
-                # if someone accidentally saved a path inside `name`, strip directories and extension
-                display_name = os.path.splitext(os.path.basename(raw_name))[0]
-            else:
-                # fallback to the json filename (strip .json)
-                display_name = os.path.splitext(filename)[0]
-            btn = tk.Button(
-                self.pb_inner,
-                image=thumb,
-                text= display_name,
-                compound="top",
-                command=lambda p=json_path: self.controller.load_card(p),
-                relief="flat"
-            )
-            btn.pack(side="top", pady=10)
+            try:
+                with open(json_path, "r") as f:
+                    data = json.load(f)
 
-        except:
-            pass
+                thumb = self._create_thumbnail(data)
+                if thumb is None:
+                    continue
 
-def create_photobook_area(self):
-    # main photobook frame
-    tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
-    tk.Label(self.photobook_frame, text="Click a saved card to open & edit!").pack(pady=10)
+                # thumbnail button
+                raw_name = data.get("name", None)
 
-    # canvas + scrollbar
-    scroll_container = tk.Frame(self.photobook_frame, width=100, height=800)
-    scroll_container.pack()
+                if raw_name:
+                    # if someone accidentally saved a path inside `name`, strip directories and extension
+                    display_name = os.path.splitext(os.path.basename(raw_name))[0]
+                else:
+                    # fallback to the json filename (strip .json)
+                    display_name = os.path.splitext(filename)[0]
+                btn = tk.Button(
+                    self.pb_inner,
+                    image=thumb,
+                    text= display_name,
+                    compound="top",
+                    command=lambda p=json_path: self.controller.load_card(p),
+                    relief="flat"
+                )
+                btn.pack(side="top", pady=10)
 
-    #
-    self.pb_canvas = tk.Canvas(scroll_container, bg="lavender", width=200, height=750)
-    self.pb_canvas.pack(side="left", fill="both", expand=True)
+            except:
+                pass
 
-    # Scrollbar
-    scrollbar = tk.Scrollbar(scroll_container, orient="vertical", command=self.pb_canvas.yview)
-    scrollbar.pack(side="right", fill="y")
-    self.pb_canvas.configure(yscrollcommand=scrollbar.set)
+    def create_photobook_area(self):
+        # main photobook frame
+        tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
+        tk.Label(self.photobook_frame, text="Click a saved card to open & edit!").pack(pady=10)
 
-    #inner frame inside the canvas ---
-    self.pb_inner = tk.Frame(self.pb_canvas, bg="white")
-    self.pb_canvas.create_window((0, 0), window=self.pb_inner, anchor="nw")
+        # canvas + scrollbar
+        scroll_container = tk.Frame(self.photobook_frame, width=100, height=800)
+        scroll_container.pack()
 
-    #  scrolling update when widgets are added
-    self.pb_inner.bind("<Configure>", lambda e:
-    self.pb_canvas.configure(scrollregion=self.pb_canvas.bbox("all"))
-                       )
+        #
+        self.pb_canvas = tk.Canvas(scroll_container, bg="lavender", width=200, height=750)
+        self.pb_canvas.pack(side="left", fill="both", expand=True)
+
+        # Scrollbar
+        scrollbar = tk.Scrollbar(scroll_container, orient="vertical", command=self.pb_canvas.yview)
+        scrollbar.pack(side="right", fill="y")
+        self.pb_canvas.configure(yscrollcommand=scrollbar.set)
+
+        #inner frame inside the canvas ---
+        self.pb_inner = tk.Frame(self.pb_canvas, bg="white")
+        self.pb_canvas.create_window((0, 0), window=self.pb_inner, anchor="nw")
+
+        #  scrolling update when widgets are added
+        self.pb_inner.bind("<Configure>", lambda e:
+        self.pb_canvas.configure(scrollregion=self.pb_canvas.bbox("all"))
+                           )
 
 
-    open_btn = tk.Button(self.photobook_frame, text="Open Photobook", command=self.load_photobook)
-    open_btn.pack(pady=10)
+        open_btn = tk.Button(self.photobook_frame, text="Open Photobook", command=self.load_photobook)
+        open_btn.pack(pady=10)
 
-    self.photobook_thumbs = []
+        self.photobook_thumbs = []
 
-def _create_thumbnail(self, card_data):
-    base_path = card_data.get("base")
+    def _create_thumbnail(self, card_data):
+        base_path = card_data.get("base")
 
-    try:
-        base = Image.open(base_path).convert("RGBA")
-    except Exception as e:
-        print("BAD BASE:", base_path, e)
-        return None
-    # bad base image
-
-    # Thumbnail base size
-    base = base.resize((160, 180))
-
-    # Draw overlays (scaled down)
-    for ov in card_data.get("overlays", []):
         try:
-            img = Image.open(ov["image"]).convert("RGBA")
-            w, h = ov["width"], ov["height"]
-            img = img.resize((w // 2, h // 2))  # scale down for thumbnail
-
-            x, y = ov["x"], ov["y"]
-            base.paste(img, (x // 2, y // 2), img)
-
+            base = Image.open(base_path).convert("RGBA")
         except Exception as e:
-            print("Thumbnail overlay failed:", e)
+            print("BAD BASE:", base_path, e)
+            return None
+        # bad base image
 
-    tk_thumb = ImageTk.PhotoImage(base)
-    self.photobook_thumbs.append(tk_thumb)  # keep alive
-    return tk_thumb
+        # Thumbnail base size
+        base = base.resize((160, 180))
+
+        # Draw overlays (scaled down)
+        for ov in card_data.get("overlays", []):
+            try:
+                img = Image.open(ov["image"]).convert("RGBA")
+                w, h = ov["width"], ov["height"]
+                img = img.resize((w // 2, h // 2))  # scale down for thumbnail
+
+                x, y = ov["x"], ov["y"]
+                base.paste(img, (x // 2, y // 2), img)
+
+            except Exception as e:
+                print("Thumbnail overlay failed:", e)
+
+        tk_thumb = ImageTk.PhotoImage(base)
+        self.photobook_thumbs.append(tk_thumb)  # keep alive
+        return tk_thumb
