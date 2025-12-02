@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+from tkinter import *
 from views import Selector
 from overlay_images import *
 import json
@@ -40,16 +41,44 @@ class View(tk.Tk):
         self.config(menu=menubar)
 
     def create_layout(self):
-        self.attributes_frame = tk.Frame(self, bg="white", width=500)
-        self.attributes_frame.pack(side="left", fill="y", ipadx=40)
+        # ATTRIBUTES FRAME
+        self.attributes_frame = tk.Frame(self, bg="white", width=250)
         tk.Label(self.attributes_frame, text="Attributes").pack(pady=10)
+        self.attributes_frame.pack(side="left", fill="y", padx=10)
+        self.attributes_frame.pack_propagate(False)
 
+        self.attributes_canvas = tk.Canvas(self.attributes_frame,  bg="white", highlightthickness=0)
+
+        self.attributescroll = tk.Scrollbar(self.attributes_frame, orient="vertical", command=self.attributes_canvas.yview)
+        self.attributescroll.pack(side="right", fill="y")
+
+        self.attributes_canvas.pack(side="left", fill="both", expand=True)
+        self.attributes_canvas.configure(yscrollcommand=self.attributescroll.set)
+
+        self.attributes_scrollable_frame = tk.Frame(self.attributes_canvas)
+
+        self.attributes_window = self.attributes_canvas.create_window((0, 0), window=self.attributes_scrollable_frame, anchor="nw")
+        self.attributes_scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.attributes_canvas.configure(
+                scrollregion=self.attributes_canvas.bbox("all")
+            )
+        )
+
+        # match the scrollable frame width to canvas width
+        def _on_canvas_resize(event):
+            self.attributes_canvas.itemconfig(self.attributes_window, width=event.width)
+
+        self.attributes_canvas.bind("<Configure>", _on_canvas_resize)
+
+        # PREVIEW FRAME
         self.preview_frame = tk.Frame(self, bg="lightgray")
         self.preview_frame.pack(side="left", fill="both", expand=True)
 
         self.canvas = tk.Canvas(self.preview_frame, width=600, height=700, bg="white")
         self.canvas.pack(expand=True)
 
+        # PHOTOBOOK FRAME
         self.photobook_frame = tk.Frame(self, bg="white", width=500)
         self.photobook_frame.pack(side="left", fill="y", ipadx=100)
         self.create_photobook_area()
@@ -59,22 +88,22 @@ class View(tk.Tk):
         self.load_photobook()
 
     def setup_attributes(self):
-        selected_template = Selector.Selector(self.attributes_frame, "Templates", cards, self.controller.change_template)
+        selected_template = Selector.Selector(self.attributes_scrollable_frame, "Templates", cards, self.controller.change_template)
         selected_template.pack(pady=3)
 
-        selected_ed = Selector.Selector(self.attributes_frame, "Ed Base", eds, self.controller.add_accessory,
+        selected_ed = Selector.Selector(self.attributes_scrollable_frame, "Ed Base", eds, self.controller.add_accessory,
                                         drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_ed.pack(pady=3)
 
-        selected_eyes = Selector.Selector(self.attributes_frame, "Eyes", eyes, self.controller.add_accessory,
+        selected_eyes = Selector.Selector(self.attributes_scrollable_frame, "Eyes", eyes, self.controller.add_accessory,
                                           drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_eyes.pack(pady=3)
 
-        selected_mouth = Selector.Selector(self.attributes_frame, "Mouth", mouths, self.controller.add_accessory,
+        selected_mouth = Selector.Selector(self.attributes_scrollable_frame, "Mouth", mouths, self.controller.add_accessory,
                                            drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_mouth.pack(pady=3)
 
-        selected_hat = Selector.Selector(self.attributes_frame, "Hats", accessories, self.controller.add_accessory,
+        selected_hat = Selector.Selector(self.attributes_scrollable_frame, "Hats", accessories, self.controller.add_accessory,
                                          drop_target=self.canvas, on_drop=self.controller.add_accessory)
         selected_hat.pack(pady=3)
 
@@ -162,11 +191,7 @@ class View(tk.Tk):
 
         self.canvas.create_rectangle(left, top, right, bottom, outline="blue", dash=(5,5), width=2)
 
-
-
-
     def resize_handler(self, item):
-
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
 
@@ -216,7 +241,6 @@ class View(tk.Tk):
         self.controller.resize_current_item(self.current_resize_value)
 
     def move_handler(self, item):
-
         x, y = item["x"], item["y"]  # item & circ center
         # w, h = item["width"], item["height"]
 
@@ -316,7 +340,7 @@ class View(tk.Tk):
 
 
     def setup_text_input(self):
-        text_frame = tk.LabelFrame(self.attributes_frame, text="Add Custom Text")
+        text_frame = tk.LabelFrame(self.attributes_scrollable_frame, text="Add Custom Text")
         text_frame.pack(pady=15, padx=5, fill="x")
 
         # 1. Create the Entry Box
