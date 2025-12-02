@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+from tkinter import *
 from views import Selector
 from overlay_images import *
 
@@ -24,6 +25,8 @@ class View(tk.Tk):
         self.attributes_frame = tk.Frame(self, bg="white", width=500)
         self.attributes_frame.pack(side="left", fill="y", ipadx=40)
         tk.Label(self.attributes_frame, text="Attributes").pack(pady=10)
+        self.attributescroll = tk.Scrollbar(self.attributes_frame, orient="vertical")
+        self.attributescroll.pack(side="right", fill="y")
 
         self.preview_frame = tk.Frame(self, bg="lightgray")
         self.preview_frame.pack(side="left", fill="both", expand=True)
@@ -33,6 +36,8 @@ class View(tk.Tk):
 
         self.photobook_frame = tk.Frame(self, bg="white", width=500)
         self.photobook_frame.pack(side="left", fill="y", ipadx=100)
+        self.photobookscroll = Scrollbar(self.photobook_frame, orient="vertical")
+        self.photobookscroll.pack(side=RIGHT,fill=Y)
         tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
 
         self.setup_attributes()
