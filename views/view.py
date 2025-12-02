@@ -67,7 +67,6 @@ class View(tk.Tk):
         # I'm leaving print statements for debugging
         self.canvas.delete("all")
         self.current_images = []
-
         base = card_state.get("base")
 
         if base and os.path.exists(base):
