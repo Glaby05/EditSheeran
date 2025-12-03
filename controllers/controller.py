@@ -89,7 +89,19 @@ class EditSheeranController:
             try:
                 with open(json_path, "r") as f:
                     data = json.load(f)
-                    self.view.update_canvas(data)
+
+                    loaded = Card()
+                    loaded.name = data.get("name", "untitled ed")
+                    loaded.base = data["base"]
+                    loaded.overlays = data.get("overlays", [])
+
+                    self.current_card = loaded
+                    self.selected_index = -1  # reset selection
+
+                    # now redraw using controller
+                    self.refresh_preview()
+
+
             except:
                 pass
 

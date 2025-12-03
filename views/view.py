@@ -109,7 +109,7 @@ class View(tk.Tk):
 
     def update_canvas(self, card_state, selected_index=None):
         # I'm leaving print statements for debugging
-        self.canvas.delete("all")
+
         self.current_images = []
 
         delete_icon_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "delete_button.png")
@@ -125,7 +125,7 @@ class View(tk.Tk):
             command=lambda: self.controller.del_current_item(self.controller.selected_index)
         )
 
-        # Add it to the canvas, initially invisible
+
         self.delete_button_id = self.canvas.create_window(
             -1000, -1000,
             window=self.delete_button,
