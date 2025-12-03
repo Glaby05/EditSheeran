@@ -179,6 +179,7 @@ class View(tk.Tk):
                     print(f"Overlay not found: {path}")
             except Exception as e:
                 print(f"Error loading overlay {item}: {e}")
+
         if self.text_item_id:
             current_text = self.canvas.itemcget(self.text_item_id, "text")
             self.text_item_id = self.canvas.create_text(
@@ -190,7 +191,6 @@ class View(tk.Tk):
                 anchor="n",
                 tags="draggable"
             )
-
 
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
@@ -357,10 +357,10 @@ class View(tk.Tk):
         text_frame = tk.LabelFrame(self.attributes_scrollable_frame, text="Add Custom Text")
         text_frame.pack(pady=15, padx=5, fill="x")
 
+        # 1. Create the Entry Box
         self.text_entry = tk.Entry(text_frame, font=("Arial", 12))
         self.text_entry.insert(0, "Set Custom Greeting")
         self.text_entry.pack(fill="x", padx=10, pady=5)
-
         add_btn = tk.Button(text_frame, text="Add Text to Canvas", command=self.add_initial_canvas_text)
         add_btn.pack(pady=5)
 
