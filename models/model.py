@@ -47,7 +47,6 @@ class Photobook:
         self.saved_cards = []
         self.folder = "photobook"
 
-
     def add_card(self, card):
         self.saved_cards.append(card)
 
@@ -105,3 +104,5 @@ class Photobook:
 
         return filepath, displayed_name
 
+        with open(self.filename, "w") as f:
+            json.dump(data, f, indent=4)
