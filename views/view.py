@@ -1,8 +1,7 @@
 import tkinter as tk
-
-import os
 from tkinter import *
 from PIL import Image, ImageTk
+import os
 from views import Selector
 from overlay_images import *
 import json
@@ -33,7 +32,7 @@ class View(tk.Tk):
         menubar = tk.Menu(self)
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(label="New Card", command=self.controller.new_card)
-        #file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
+        # file_menu.add_command(label="Open Base Image", command=self.controller.load_base)
         file_menu.add_command(label="Save to Photobook", command=self.controller.save_card)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.quit)
@@ -82,29 +81,11 @@ class View(tk.Tk):
         # PHOTOBOOK FRAME
         self.photobook_frame = tk.Frame(self, bg="white", width=500)
         self.photobook_frame.pack(side="left", fill="y", ipadx=100)
-        self.photobook_frame.pack_propagate(False)
-
-        self.photobook_canvas = tk.Canvas(self.photobook_frame,  bg="white", highlightthickness=0)
-
-        self.photobookscroll = Scrollbar(self.photobook_frame, orient="vertical")
-        self.photobookscroll.pack(side="right", fill=Y)
-        tk.Label(self.photobook_frame, text="Photobook").pack(pady=10)
-
-        self.photobook_canvas.pack(side="left", fill="both", expand=True)
-        self.photobook_canvas.configure(yscrollcommand=self.photobookscroll.set)
-
-        self.photobook_scrollable_frame = tk.Frame(self.photobook_canvas)
-
-        self.photobook_window = self.photobook_canvas.create_window((0, 0), window=self.photobook_scrollable_frame, anchor="nw")
-        self.photobook_scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.photobook_canvas.configure(
-                scrollregion=self.photobook_canvas.bbox("all")
-            )
-        )
+        self.create_photobook_area()
 
         self.setup_attributes()
         self.setup_text_input()
+        self.load_photobook()
 
     def setup_attributes(self):
         selected_template = Selector.Selector(self.attributes_scrollable_frame, "Templates", cards, self.controller.change_template)
@@ -144,7 +125,7 @@ class View(tk.Tk):
             command=lambda: self.controller.del_current_item(self.controller.selected_index)
         )
 
-        # Add it to the canvas, initially invisible
+
         self.delete_button_id = self.canvas.create_window(
             -1000, -1000,
             window=self.delete_button,
@@ -210,6 +191,7 @@ class View(tk.Tk):
                 tags="draggable"
             )
 
+
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
@@ -222,6 +204,7 @@ class View(tk.Tk):
         self.canvas.create_rectangle(left, top, right, bottom, outline="blue", dash=(5,5), width=2)
 
     def resize_handler(self, item):
+        self.highlight_selected(item)
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
 
@@ -271,6 +254,7 @@ class View(tk.Tk):
         self.controller.resize_current_item(self.current_resize_value)
 
     def move_handler(self, item):
+        self.highlight_selected(item)
         x, y = item["x"], item["y"]  # item & circ center
         # w, h = item["width"], item["height"]
 
@@ -504,3 +488,5 @@ class View(tk.Tk):
         tk_thumb = ImageTk.PhotoImage(base)
         self.photobook_thumbs.append(tk_thumb)  # keep alive
         return tk_thumb
+
+

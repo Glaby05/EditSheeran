@@ -17,12 +17,12 @@ class EditSheeranController:
 
         self.refresh_preview()
 
-    def select_item(self, index):
-        self.selected_index = index
-        self.refresh_preview()
-
     def new_card(self):
         self.current_card = Card()  # ← reset model too
+        self.refresh_preview()
+
+    def select_item(self, index):
+        self.selected_index = index
         self.refresh_preview()
 
     def refresh_preview(self):
@@ -35,9 +35,9 @@ class EditSheeranController:
 
     def add_accessory(self, path, x=None, y=None):
         if x is None:
-            x = 200
+            x = 300
         if y is None:
-            y=250
+            y=350
         self.current_card.add_overlay(path, x, y)
         self.refresh_preview()
 
@@ -89,7 +89,19 @@ class EditSheeranController:
             try:
                 with open(json_path, "r") as f:
                     data = json.load(f)
-                    self.view.update_canvas(data)
+
+                    loaded = Card()
+                    loaded.name = data.get("name", "untitled ed")
+                    loaded.base = data["base"]
+                    loaded.overlays = data.get("overlays", [])
+
+                    self.current_card = loaded
+                    self.selected_index = -1  # reset selection
+
+                    # now redraw using controller
+                    self.refresh_preview()
+
+
             except:
                 pass
 
