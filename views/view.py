@@ -198,6 +198,17 @@ class View(tk.Tk):
                     print(f"Overlay not found: {path}")
             except Exception as e:
                 print(f"Error loading overlay {item}: {e}")
+        if self.text_item_id:
+            current_text = self.canvas.itemcget(self.text_item_id, "text")
+            self.text_item_id = self.canvas.create_text(
+                self.canvas.winfo_width() / 2,
+                300,
+                text=current_text,
+                fill="black",
+                font=("Arial", 30, "bold"),
+                anchor="n",
+                tags="draggable"
+            )
 
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
