@@ -34,6 +34,7 @@ class EditSheeranController:
         data = self.current_card.get_state()
         self.view.update_canvas(data, self.selected_index)
 
+
     def change_template(self, path):
         self.current_card.set_base(path)
         self.refresh_preview()
@@ -71,6 +72,8 @@ class EditSheeranController:
         self.view.mainloop()
 
     def save_card(self):
+        text_content = self.view.text_entry.get().strip()
+        self.current_card.set_text(text_content if text_content else None)
         self.photobook.add_card(self.current_card)
 
         filepath, displayed_name = self.photobook.save_to_computer()

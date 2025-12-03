@@ -191,7 +191,6 @@ class View(tk.Tk):
                 anchor="n",
                 tags="draggable"
             )
-
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]

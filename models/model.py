@@ -14,6 +14,10 @@ class Card:
     def set_base(self, new_path):
         self.base = new_path
 
+    def set_text(self, text_str):
+        """Save text as a string."""
+        self.text = text_str
+
     def add_overlay(self, image_path, x=200, y=200):
         self.overlays.append({
             "image": image_path,
@@ -40,7 +44,8 @@ class Card:
     def get_state(self):
         return {
             "base": self.base,
-            "overlays": self.overlays
+            "overlays": self.overlays,
+            "text": self.text
         }
 
 class Photobook:
