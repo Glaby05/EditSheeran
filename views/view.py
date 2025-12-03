@@ -180,6 +180,17 @@ class View(tk.Tk):
             except Exception as e:
                 print(f"Error loading overlay {item}: {e}")
 
+        if self.text_item_id:
+            current_text = self.canvas.itemcget(self.text_item_id, "text")
+            self.text_item_id = self.canvas.create_text(
+                self.canvas.winfo_width() / 2,
+                300,
+                text=current_text,
+                fill="black",
+                font=("Arial", 30, "bold"),
+                anchor="n",
+                tags="draggable"
+            )
 
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
@@ -350,7 +361,6 @@ class View(tk.Tk):
         self.text_entry = tk.Entry(text_frame, font=("Arial", 12))
         self.text_entry.insert(0, "Set Custom Greeting")
         self.text_entry.pack(fill="x", padx=10, pady=5)
-        self.text_entry.bind("<KeyRelease>", self.update_canvas_text)
         add_btn = tk.Button(text_frame, text="Add Text to Canvas", command=self.add_initial_canvas_text)
         add_btn.pack(pady=5)
 
