@@ -1,7 +1,7 @@
 import tkinter as tk
+from tkinter import *
 from PIL import Image, ImageTk
 import os
-from tkinter import *
 from views import Selector
 from overlay_images import *
 import json
@@ -93,25 +93,24 @@ class View(tk.Tk):
 
         selected_ed = Selector.Selector(self.attributes_scrollable_frame, "Ed Base", eds, self.controller.add_accessory,
                                         drop_target=self.canvas, on_drop=self.controller.add_accessory)
-        selected_ed.pack(pady=10)
+        selected_ed.pack(pady=3)
 
-        selected_eyes = Selector.Selector(self.attributes_frame, "Eyes", eyes, self.controller.add_accessory,
+        selected_eyes = Selector.Selector(self.attributes_scrollable_frame, "Eyes", eyes, self.controller.add_accessory,
                                           drop_target=self.canvas, on_drop=self.controller.add_accessory)
-        selected_eyes.pack(pady=10)
+        selected_eyes.pack(pady=3)
 
-        selected_mouth = Selector.Selector(self.attributes_frame, "Mouth", mouths, self.controller.add_accessory,
+        selected_mouth = Selector.Selector(self.attributes_scrollable_frame, "Mouth", mouths, self.controller.add_accessory,
                                            drop_target=self.canvas, on_drop=self.controller.add_accessory)
-        selected_mouth.pack(pady=10)
+        selected_mouth.pack(pady=3)
 
-        selected_hat = Selector.Selector(self.attributes_frame, "Hats", accessories, self.controller.add_accessory,
+        selected_hat = Selector.Selector(self.attributes_scrollable_frame, "Hats", accessories, self.controller.add_accessory,
                                          drop_target=self.canvas, on_drop=self.controller.add_accessory)
-        selected_hat.pack(pady=10)
+        selected_hat.pack(pady=3)
 
     def update_canvas(self, card_state, selected_index=None):
         # I'm leaving print statements for debugging
-
+        self.canvas.delete("all")
         self.current_images = []
-
         base = card_state.get("base")
 
         if base and os.path.exists(base):
