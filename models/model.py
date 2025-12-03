@@ -9,6 +9,7 @@ class Card:
         self.name = name
         self.base = base
         self.overlays = []
+        self.text = None
 
     def set_base(self, new_path):
         self.base = new_path

@@ -8,17 +8,22 @@ import json
 class EditSheeranController:
     def __init__(self):
         self.photobook = Photobook()
-
         self.current_card = Card()
-
         self.selected_index = -1
 
+        self.card_state = {"text": None}
         self.view = View(self)
-
         self.refresh_preview()
 
     def new_card(self):
-        self.current_card = Card()  # ← reset model too
+        self.current_card = Card()
+        self.selected_index = -1
+        self.card_state["text"] = None
+        if getattr(self.view, "text_item_id", None):
+            self.view.canvas.delete(self.view.text_item_id)
+        self.view.text_item_id = None
+        self.view.text_entry.delete(0, tk.END)
+        self.view.text_entry.insert(0, "Set Custom Greeting")
         self.refresh_preview()
 
     def select_item(self, index):
@@ -94,6 +99,9 @@ class EditSheeranController:
                     loaded.name = data.get("name", "untitled ed")
                     loaded.base = data["base"]
                     loaded.overlays = data.get("overlays", [])
+                    self.view.text_item_id = None
+                    self.view.text_entry.delete(0, tk.END)
+                    self.view.text_entry.insert(0, "Set Custom Greeting")
 
                     self.current_card = loaded
                     self.selected_index = -1  # reset selection
