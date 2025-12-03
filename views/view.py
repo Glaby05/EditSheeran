@@ -303,7 +303,6 @@ class View(tk.Tk):
         self.text_entry = tk.Entry(text_frame, font=("Arial", 12))
         self.text_entry.insert(0, "Set Custom Greeting")
         self.text_entry.pack(fill="x", padx=10, pady=5)
-        self.text_entry.bind("<KeyRelease>", self.update_canvas_text)
         add_btn = tk.Button(text_frame, text="Add Text to Canvas", command=self.add_initial_canvas_text)
         add_btn.pack(pady=5)
 
