@@ -7,6 +7,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.iml
+*.xml
 
 # (Optional) Ignore virtual environments
 .venv/
