@@ -9,7 +9,7 @@ class Card:
         self.name = name
         self.base = base
         self.overlays = []
-        self.text = None
+        self.text = ""
 
     def set_base(self, new_path):
         self.base = new_path
@@ -98,7 +98,8 @@ class Photobook:
         data_to_save = {
             "name": card.name,
             "base": os.path.abspath(card.base),
-            "overlays": cleaned_overlays
+            "overlays": cleaned_overlays,
+            "text": card.text
         }
 
         # Save JSON
@@ -109,6 +110,3 @@ class Photobook:
         displayed_name = card.name
 
         return filepath, displayed_name
-
-        with open(self.filename, "w") as f:
-            json.dump(data, f, indent=4)

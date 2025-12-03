@@ -73,7 +73,7 @@ class EditSheeranController:
 
     def save_card(self):
         text_content = self.view.text_entry.get().strip()
-        self.current_card.set_text(text_content if text_content else None)
+        self.current_card.set_text(text_content if len(text_content) > 0 else "")
         self.photobook.add_card(self.current_card)
 
         filepath, displayed_name = self.photobook.save_to_computer()
@@ -98,13 +98,15 @@ class EditSheeranController:
                 with open(json_path, "r") as f:
                     data = json.load(f)
 
+                    self.view.text_item_id = None
+                    self.view.text_entry.delete(0, tk.END)
+                    self.view.text_entry.insert(0, "Set Custom Greeting")
+
                     loaded = Card()
                     loaded.name = data.get("name", "untitled ed")
                     loaded.base = data["base"]
                     loaded.overlays = data.get("overlays", [])
-                    self.view.text_item_id = None
-                    self.view.text_entry.delete(0, tk.END)
-                    self.view.text_entry.insert(0, "Set Custom Greeting")
+                    loaded.text = data.get("text")
 
                     self.current_card = loaded
                     self.selected_index = -1  # reset selection

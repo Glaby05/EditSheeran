@@ -2,5 +2,6 @@
     "base": "assets/blank_card.jpg",
     "name": "Untitled Ed",
     "facts": "",
-    "overlays": []
+    "overlays": [],
+    "text": ""
 }

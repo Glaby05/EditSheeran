@@ -11,6 +11,7 @@ BASE_DIR = os.path.dirname(__file__)
 BASE_DIR1 = os.path.dirname(os.path.abspath(BASE_DIR))
 PHOTBOOK_DIR = os.path.join(BASE_DIR1, "photobook")
 
+
 class View(tk.Tk):
     def __init__(self, controller):
         super().__init__()
@@ -125,7 +126,6 @@ class View(tk.Tk):
             command=lambda: self.controller.del_current_item(self.controller.selected_index)
         )
 
-
         self.delete_button_id = self.canvas.create_window(
             -1000, -1000,
             window=self.delete_button,
@@ -180,6 +180,8 @@ class View(tk.Tk):
             except Exception as e:
                 print(f"Error loading overlay {item}: {e}")
 
+
+        # current_text = ""
         if self.text_item_id:
             current_text = self.canvas.itemcget(self.text_item_id, "text")
             self.text_item_id = self.canvas.create_text(
@@ -191,6 +193,21 @@ class View(tk.Tk):
                 anchor="n",
                 tags="draggable"
             )
+        else:
+            current_text = card_state.get("text")
+            self.text_item_id = self.canvas.create_text(
+                self.canvas.winfo_width() / 2,
+                300,
+                text=current_text,
+                fill="black",
+                font=("Arial", 30, "bold"),
+                anchor="n",
+                tags="draggable"
+            )
+        # else:
+        #     text = card_state.get("text")
+        #     self.canvas.itemconfigure(self.text_item_id, text=text)
+
     def highlight_selected(self, item):
         x, y = item["x"], item["y"]
         w, h = item["width"], item["height"]
@@ -350,7 +367,6 @@ class View(tk.Tk):
         self.canvas.lift(self.delete_button_id)
 
         print("Placing delete button at:", bx, by)
-
 
     def setup_text_input(self):
         text_frame = tk.LabelFrame(self.attributes_scrollable_frame, text="Add Custom Text")
